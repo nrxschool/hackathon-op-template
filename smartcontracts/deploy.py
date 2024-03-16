@@ -4,6 +4,7 @@ Automation for update debug section in front-end
 from dataclasses import dataclass, field
 from json import dumps, load
 from typing import List
+import os
 
 
 @dataclass
@@ -21,9 +22,9 @@ class Contract:
 
 
 CHAIN_ID = 31337
-CONTRACT_SCRIPT_NAME = "Deploy.s.sol"
+CONTRACT_SCRIPT_NAME = "deploy.local.s.sol"
 TRANSACTIONS_PATH = f"broadcast/{CONTRACT_SCRIPT_NAME}/{CHAIN_ID}/run-latest.json"
-TARGET_DIR = "../ui/generated/deployedContracts.ts"
+TARGET_DIR = "../frontend/generated/deployedContracts.ts"
 
 
 
@@ -54,6 +55,9 @@ for contract in contracts:
         "address": contract.address,
         "abi": contract.abi,
     }
+
+
+os.makedirs('../frontend/generated', exist_ok=True)
 
 
 typescript_content = f"const deployedContracts = {dumps(json_config)} as const; \n\n export default deployedContracts"
