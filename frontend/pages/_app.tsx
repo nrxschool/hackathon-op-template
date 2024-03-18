@@ -43,7 +43,7 @@ const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
         avatar={BlockieAvatar}
         theme={isDarkTheme ? darkTheme() : lightTheme()}
       >
-        <div className={twMerge("flex flex-col min-h-screen bg-background-500", outfit.className)}>
+        <div className={twMerge("flex flex-col min-h-screen bg-background-500 antialiased", outfit.className)}>
           <main className="relative flex flex-col flex-1">
             <Component {...pageProps} />
           </main>
