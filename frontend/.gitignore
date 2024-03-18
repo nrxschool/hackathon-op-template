@@ -39,3 +39,4 @@ yarn-error.log*
 
 # deploy update
 deployedContracts.ts
+/generated/build-info

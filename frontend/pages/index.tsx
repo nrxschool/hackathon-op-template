@@ -1,64 +1,94 @@
-import Link from "next/link";
-import type { NextPage } from "next";
-import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
-import { MetaHeader } from "~~/components/MetaHeader";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import type { NextPage } from 'next';
+import React, { useState } from 'react';
+import Head from 'next/head';
+import Link from 'next/link';
+import Image from 'next/image';
+import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
+  const [candidates, setCandidates] = useState([
+    { id: 1, name: 'Candidato 1', votes: 0, photo:'/img/candidato1.jpg'},
+    { id: 2, name: 'Candidato 2', votes: 0, photo:'/img/candidato2.jpg'}
+  ]);
+  const voteCandidate = (candidateId: number) => {
+    setCandidates(prevCandidates =>
+      prevCandidates.map(candidate =>
+        candidate.id === candidateId ? { ...candidate, votes: candidate.votes + 1 } : candidate
+      )
+    );
+  };
   return (
-    <>
-      <MetaHeader />
-      <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center mb-8">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Fullstack Web3 Template</span>
-          </h1>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold">packages/nextjs/pages/index.tsx</code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract <code className="italic bg-base-300 text-base font-bold">YourContract.sol</code> in{" "}
-            <code className="italic bg-base-300 text-base font-bold">packages/hardhat/contracts</code>
-          </p>
-        </div>
-
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contract
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SparklesIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Experiment with{" "}
-                <Link href="/example-ui" passHref className="link">
-                  Example UI
-                </Link>{" "}
-                to build your own UI.
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-          </div>
-        </div>
+    <div className={styles.container}>
+      <div className={styles.background}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+        <defs>
+         <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+         <stop offset="0%" stop-color="#9400D3" />
+         <stop offset="25%" stop-color="#4B0082" />
+         <stop offset="50%" stop-color="#0000FF" />
+         <stop offset="75%" stop-color="#00FF00" />
+         <stop offset="100%" stop-color="#FFFF00" />
+         </linearGradient>
+         </defs>
+        <rect width="100%" height="100%" fill="url(#backgroundGradient)" />
+      </svg>
       </div>
-    </>
+      <Head>
+        <title>Global DVN</title>
+        <meta content="Teste de votação" name="description" />
+        <link href="/favicon.ico" rel="icon" />
+      </Head>
+      <main className={styles.main}>
+      <header>
+      <h1 className={styles.title}> Votação Eleitoral </h1>
+      <nav className={styles.menu}>
+      <ul>
+        <li>
+          <Link href="/">
+            What
+          </Link>
+        </li>
+        <li>
+          <Link href="/roadmap">
+            Roadmap
+          </Link>
+        </li>
+        <li>
+          <Link href="/teams">
+            Teams
+          </Link>
+        </li>
+        <li>
+          <Link href="/partners">
+            Partners
+          </Link>
+        </li>
+      </ul>
+    </nav>
+      <div className={styles.connectButton}><ConnectButton /></div>
+      </header>
+        <div className={styles.grid}>
+          {candidates.map(candidate => (
+            <div key={candidate.id} className={styles.card}>
+              <Image src={candidate.photo} alt={candidate.name} width={200} height={200} />
+              <div className={styles.details}>
+              <h3 className={styles.h3}>{candidate.name}</h3>
+              <p className={styles.p}>Votos: {candidate.votes}</p>
+              <button className={styles.voteButton} onClick={() => voteCandidate(candidate.id)}>Votar</button>
+            </div>
+            </div>
+          ))}
+        </div>
+        
+      </main>
+
+      <footer className={styles.footer}>
+        <a href="" rel="" target="_blank">
+          Global DVN ©
+        </a>
+      </footer>
+    </div>
   );
 };
 
