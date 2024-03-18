@@ -119,7 +119,7 @@ export const useTransactor = (_signer?: Signer): TTransactionFunc => {
       };
 
       const contracts = deployedContracts[31337][0].contracts;
-      for (let contract of Object.values(contracts)) {
+      for (const contract of Object.values(contracts)) {
         const abi = contract.abi.filter((item: any) => item.type === "error");
         if (abi.length > 0) {
           try {
