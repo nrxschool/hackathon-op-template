@@ -1,0 +1,7 @@
+FROM python:3
+
+WORKDIR /develop
+
+COPY ./ .
+
+CMD ["python3", "broadcast-abi.py"]

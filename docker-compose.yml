@@ -1,20 +1,27 @@
 version: '3.8'
+
 services:
   frontend:
     depends_on:
-      - anvil
+      broadcastabi:
+        condition: service_completed_successfully
     build:
-      context: ./ui
-      dockerfile: Dockerfile
+      context: ./frontend
+      dockerfile: Dockerfile.front
     ports:
       - 3000:3000
+    volumes:
+      - ./frontend/generated:/app/generated
 
-  anvil:
+  broadcastabi:
+    depends_on:
+      deploy:
+        condition: service_completed_successfully
     build:
-      context: ./smartcontracts
-      dockerfile: Dockerfile.anvil
-    ports:
-      - 8545:8545
+      context: ./
+      dockerfile: Dockerfile.abi
+    volumes:
+      - .:/develop
 
   deploy:
     depends_on:
@@ -22,3 +29,12 @@ services:
     build:
       context: ./smartcontracts
       dockerfile: Dockerfile.deploy
+    volumes:
+      - ./smartcontracts:/develop
+  
+  anvil:
+    build:
+      context: ./smartcontracts
+      dockerfile: Dockerfile.anvil
+    ports:
+      - 8545:8545
