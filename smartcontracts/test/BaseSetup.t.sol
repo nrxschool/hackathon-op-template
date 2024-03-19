@@ -2,9 +2,15 @@
 pragma solidity ^0.8.18;
 
 import {Counter} from "../src/Counter.sol";
+import {FlutterCourse} from "../src/FlutterCourse.sol";
 import {Utils} from "./Utils.t.sol";
 
 contract BaseSetup is Utils {
+    
+    FlutterCourse myFlutterCourse; 
+    uint256 expirationDate = block.timestamp + (30 days); // Definindo a data de expiração para 30 dias a partir de agora
+
+   
     Counter counter;
 
     address[] _users;
@@ -34,6 +40,8 @@ contract BaseSetup is Utils {
 
         vm.startPrank(controller);
         counter = new Counter();
+        myFlutterCourse = new FlutterCourse();
+        myFlutterCourse.mint(alice, expirationDate);
         vm.stopPrank();
     }
 

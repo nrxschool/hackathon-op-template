@@ -15,8 +15,8 @@ class Contract:
     - abi: list
     """
 
-    name: str
-    address: str
+    name: str 
+    address: str 
     abi: list = field(default_factory=list)
 
 
