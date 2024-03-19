@@ -18,7 +18,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html className={outfit.className} lang="pt">
+    <html className={outfit.variable} lang="pt">
       <body className="bg-background-800">{children}</body>
     </html>
   );
