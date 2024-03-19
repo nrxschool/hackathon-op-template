@@ -6,6 +6,7 @@ import {BaseSetup} from "./BaseSetup.t.sol";
 contract MilestoneTest is BaseSetup {
 
     uint256 constant goal = 100;
+    uint256 constant initialValueFromUtils = 10000 ether;
     error ContractDisabled();
 
     function setUp() public override {
@@ -13,6 +14,7 @@ contract MilestoneTest is BaseSetup {
     }
 
     function test_initialState() public {
+        assertEq(milestone.owner().balance, initialValueFromUtils);
         assertEq(milestone.owner(), controller);
         assertEq(milestone.goal(), goal);
         assertEq(milestone.goalAchieved(), false);
@@ -61,5 +63,12 @@ contract MilestoneTest is BaseSetup {
         
         vm.expectRevert(abi.encodeWithSelector(ContractDisabled.selector));
         milestone.donate{value: 45}();
+    }
+    
+    function test_onwerReceiveBalance_afterContractReleaseBalance() public {  
+        milestone.donate{value: 777}();
+
+        assertEq(address(milestone).balance, 0);
+        assertEq(controller.balance, initialValueFromUtils + 777);
     }
 }
