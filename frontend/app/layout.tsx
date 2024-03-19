@@ -7,9 +7,10 @@ const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | devstore",
-    default: "devstore",
+    template: "%s | CryptoGuardian",
+    default: "CryptoGuardian",
   },
+  icons: "/logo.svg",
 };
 
 export default function RootLayout({
