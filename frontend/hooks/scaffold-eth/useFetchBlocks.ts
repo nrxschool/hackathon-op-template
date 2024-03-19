@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { localhost } from "wagmi/chains";

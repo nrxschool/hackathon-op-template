@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { localhost } from "wagmi/chains";
 import { getLocalProvider } from "~~/utils/scaffold-eth";

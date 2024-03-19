@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 import { FunctionFragment } from "ethers/lib/utils";
 import { useContractRead } from "wagmi";

@@ -1,3 +1,5 @@
+'use client'
+
 import { Abi, ExtractAbiEventNames } from "abitype";
 import { useContractEvent } from "wagmi";
 import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";

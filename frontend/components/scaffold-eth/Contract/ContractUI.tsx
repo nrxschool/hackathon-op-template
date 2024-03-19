@@ -1,3 +1,5 @@
+'use client'
+
 import { useMemo, useState } from "react";
 import { Abi } from "abitype";
 import { useContract, useProvider } from "wagmi";

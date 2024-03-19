@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useEffect, useRef } from "react";
 import { BytesLike, Signer, Wallet, ethers } from "ethers";
 import { useDebounce } from "use-debounce";

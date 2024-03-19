@@ -1,3 +1,5 @@
+"use client";
+
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { TransactionReceipt } from "@ethersproject/abstract-provider";
 import { BigNumber } from "ethers";

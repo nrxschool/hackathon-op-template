@@ -1,3 +1,5 @@
+"use client";
+
 import { Abi } from "abitype";
 import { ethers } from "ethers";
 import { useContract, useProvider } from "wagmi";

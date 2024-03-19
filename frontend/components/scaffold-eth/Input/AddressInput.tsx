@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useEffect, useState } from "react";
 import { isAddress } from "ethers/lib/utils";
 import Blockies from "react-blockies";

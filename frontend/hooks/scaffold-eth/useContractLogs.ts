@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useProvider } from "wagmi";
