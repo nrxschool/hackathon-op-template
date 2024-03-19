@@ -13,15 +13,25 @@ contract Milestone {
         goal = _goal;
     }
 
-    receive() external payable {
+    function donate() public payable {
         if (goalAchieved) revert ContractDisabled();
+
         if (address(this).balance >= goal) {
             (bool success, ) = payable(owner).call{ value: address(this).balance }("");
+
             if (success) {
                 goalAchieved = true;
             } else {
                 revert();
             }
         }
+    }
+
+    receive() external payable {
+        donate();
+    }
+
+    fallback() external payable {
+        donate();
     }
 }
