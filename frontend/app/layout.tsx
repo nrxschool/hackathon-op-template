@@ -18,8 +18,8 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html className={outfit.variable} lang="pt">
-      <body className="bg-background-800">{children}</body>
+    <html className={`${outfit.variable} h-full`} lang="pt">
+      <body className="bg-background-800 h-full">{children}</body>
     </html>
   );
 }
