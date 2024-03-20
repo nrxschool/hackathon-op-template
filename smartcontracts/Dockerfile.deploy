@@ -1,7 +1,12 @@
+
+
 FROM ghcr.io/foundry-rs/foundry
 
 WORKDIR /develop
 COPY . .
 
-RUN forge b --skip test
-CMD ["forge script scripts/deploy.local.s.sol:Local -f http://anvil:8545 --broadcast"]
+RUN apk add --no-cache python3 py3-pip
+
+# RUN forge b --skip test
+# CMD ["forge script script/deploy.local.s.sol:Local -f http://anvil:8545 --broadcast ; python3 deploy.py"]
+CMD ["sh deploy-on-local.sh"]

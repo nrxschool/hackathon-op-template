@@ -1,10 +1,11 @@
-forge b --skip test script --build-info
+if [ ! -f ./generated/deployedContracts.ts ]; then
+    forge b --skip test script --build-info
 
-forge script script/deploy.local.s.sol:Local \
-    --rpc-url http://127.0.0.1:8545 \
-    --build-info \
-    --broadcast \
-    --verbosity
+    forge script script/deploy.local.s.sol:Local \
+        -f http://anvil:8545 \
+        --build-info \
+        --broadcast \
+        --verbosity
 
-python deploy.py
-
+    python3 deploy.py
+fi
