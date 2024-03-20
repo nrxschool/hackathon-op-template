@@ -5,26 +5,45 @@ error ContractDisabled();
 
 contract Milestone {
     address public owner;
-    uint256 public goal;
-    bool public goalAchieved;
+    uint256 public balance;
+    uint256 public finalMilestone;
+
+    MileUnit[] public milestones;
 
     constructor(uint256 _goal) {
         owner = msg.sender;
-        goal = _goal;
+        milestones.push(MileUnit(_goal * 10 / 100, false)); // %10
+        milestones.push(MileUnit(_goal * 25 / 100, false)); // 10 + 25 = 35%
+        milestones.push(MileUnit(_goal * 35 / 100, false)); // 35 + 35 = 70%
+        milestones.push(MileUnit(_goal * 30 / 100, false)); // 70 + 30 = 100%
+        finalMilestone = _goal;
     }
 
     function donate() public payable {
-        if (goalAchieved) revert ContractDisabled();
+        if (getGoalAchieved(3)) revert ContractDisabled();
 
-        if (address(this).balance >= goal) {
-            (bool success, ) = payable(owner).call{ value: address(this).balance }("");
+        balance += msg.value;
 
-            if (success) {
-                goalAchieved = true;
+        for (uint8 index = 0; index < milestones.length; index++) {
+            if (getGoalAchieved(index)) continue;
+
+            if (address(this).balance >= milestones[index].value) {
+                milestones[index].goalAchieved = true;
+
+                (bool success, ) = payable(owner).call{                     
+                    value: index == 3 ? address(this).balance : milestones[index].value
+                }("");
+
+                if (!success) revert();
             } else {
-                revert();
+                break;
             }
+
         }
+    }
+
+    function getGoalAchieved(uint8 index) public view returns(bool) {
+        return milestones[index].goalAchieved;
     }
 
     receive() external payable {
@@ -33,5 +52,10 @@ contract Milestone {
 
     fallback() external payable {
         donate();
+    }
+
+    struct MileUnit {
+        uint256 value;
+        bool goalAchieved;
     }
 }
