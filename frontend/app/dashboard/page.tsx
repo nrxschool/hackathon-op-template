@@ -1,7 +1,7 @@
 import { FaPlus } from "react-icons/fa6";
 import { Header } from "~~/components/dashboard";
 
-export default function Dashboard() {
+export default async function Dashboard() {
   return (
     <>
       <div className="p-8">

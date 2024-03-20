@@ -4,10 +4,12 @@ import Link from "next/link";
 import { FaArrowUp } from "react-icons/fa";
 
 export function NavBar() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   async function handleSign() {
-    await signIn("discord");
+    await signIn("discord", {
+      callbackUrl: `${window.location.origin}/dashboard`,
+    });
   }
 
   async function handleLogout() {

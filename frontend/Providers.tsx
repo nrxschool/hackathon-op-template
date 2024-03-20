@@ -10,11 +10,11 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={appChains.chains} avatar={BlockieAvatar}>
-          {children}
-        </RainbowKitProvider>
-      </WagmiConfig>
+      {/* <WagmiConfig client={wagmiClient}> */}
+      {/* <RainbowKitProvider chains={appChains.chains} avatar={BlockieAvatar}> */}
+      {children}
+      {/* </RainbowKitProvider> */}
+      {/* </WagmiConfig> */}
     </>
   );
 };
