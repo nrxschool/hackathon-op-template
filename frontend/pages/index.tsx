@@ -10,16 +10,24 @@ const Home: NextPage = () => {
       <div className="flex items-center flex-col flex-grow pt-10">
         <div className="px-5">
           <h1 className="text-center mb-8">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Fullstack Web3 Template</span>
+            <span className="block text-2xl mb-2">Bem vindo ao projeto de hackathon da </span>
+            <span className="block text-4xl font-bold">Equipe Rocket</span>
           </h1>
           <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold">packages/nextjs/pages/index.tsx</code>
+            Comece pela apresentação de nosso projeto disponível no loom:{" "}
+            <Link
+              href="https://www.loom.com/share/19933fd4613142dc93cd8c7bf2c19d00?sid=614c865f-1219-4fe9-b36c-f107ff9c7918"
+              passHref
+              className="link"
+            >
+              Transformando Futuros com Optimisn
+            </Link>
+            .
           </p>
           <p className="text-center text-lg">
-            Edit your smart contract <code className="italic bg-base-300 text-base font-bold">YourContract.sol</code> in{" "}
-            <code className="italic bg-base-300 text-base font-bold">packages/hardhat/contracts</code>
+            Por que Optimist? O <code className="italic bg-base-300 text-base font-bold">Optimism Collective</code> visa
+            criar uma nova Internet que beneficie a todos e não seja{" "}
+            <code className="italic bg-base-300 text-base font-bold"> propriedade de ninguém.</code>
           </p>
         </div>
 
@@ -28,7 +36,7 @@ const Home: NextPage = () => {
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
               <BugAntIcon className="h-8 w-8 fill-secondary" />
               <p>
-                Tinker with your smart contract using the{" "}
+                Mexa os contrato inteligente usando o{" "}
                 <Link href="/debug" passHref className="link">
                   Debug Contract
                 </Link>{" "}

@@ -6,15 +6,12 @@ import {Test} from "forge-std/Test.sol";
 import {Vm} from "forge-std/Vm.sol";
 
 contract Utils is Test {
-    string mnemonic =
-        "test test test test test test test test test test test junk";
+    string mnemonic = "test test test test test test test test test test test junk";
 
-    function createUsers(
-        uint32 userNum
-    ) public returns (address payable[] memory) {
+    function createUsers(uint32 userNum) public returns (address payable[] memory) {
         address payable[] memory users = new address payable[](userNum);
         for (uint32 i = 0; i < userNum; i++) {
-            (address user, ) = deriveRememberKey(mnemonic, i);
+            (address user,) = deriveRememberKey(mnemonic, i);
             vm.deal(user, 10000 ether);
             users[i] = payable(user);
         }
