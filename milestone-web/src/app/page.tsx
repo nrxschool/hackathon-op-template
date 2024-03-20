@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return <>
@@ -8,7 +8,7 @@ export default function Home() {
       <span className="subtitle font-inter">Crie sua vaquinha em minutos!</span>
       <div>
         <button className='outline-button'>Consulte sua mile</button>
-        <button className='primary-button'>Crie sua mile!</button>
+        <Link href="/create-mile"> <button className='primary-button'>Crie sua mile!</button></Link>
       </div>
       <div className="footer-home">
         <img src="/img/flag.png" alt="Descrição da imagem"/>

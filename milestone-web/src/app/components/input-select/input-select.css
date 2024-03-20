@@ -1,0 +1,24 @@
+.select-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .label {
+    margin-bottom: 5px;
+    color: #092C4C;
+  }
+  
+  .select {
+    padding: 8px;
+    /* border: 1px solid #ccc; */
+    border-radius: 8px;
+    font-size: 14px;
+    height: 54px;
+    color: #092C4C;
+    background-color: #E9EDFF;
+  }
+
+  select:focus {
+    outline: none; /* Remove a borda de foco */
+  }

@@ -1,0 +1,9 @@
+.goal-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    margin-bottom: 5px;
+    color: #092C4C;
+  }

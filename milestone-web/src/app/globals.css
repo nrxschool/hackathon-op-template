@@ -30,6 +30,14 @@ body {
   background-repeat: no-repeat;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  margin-top: 50px;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -94,6 +102,7 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   margin: 10px;
+  min-width: 250px;
 }
 
 .primary-button {
@@ -106,6 +115,7 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   margin: 10px;
+  min-width: 250px;
 }
 
 .danger-button {
@@ -151,8 +161,35 @@ body {
   line-height: 82px;
 }
 
+.centralized-div .title3 {
+  font-size: 33px;
+  color: #4766F9;
+  line-height: 42px;
+  font-weight: bold;
+}
+
 .centralized-div .subtitle {
   font-size: 33px;
   color: #626262;
   line-height: 82px;
+}
+.centralized-div .subtitle2 {
+  font-size: 16px;
+  color: #626262;
+  line-height: 20px;
+}
+
+.bottom-right-image {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%; 
+  margin-right: -500px;
+  margin-top: -50px;
+}
+
+.disclaimer {
+  color: #626262;
+  font-size: 14px;
+  font-style: italic;
+  margin: 10px;
 }
