@@ -1,5 +1,5 @@
 import { Chain } from "wagmi";
-import { publicProvider } from "wagmi/providers/public";
+import { publicProvider } from "wagmi";
 
 /**
  * @dev Get the localProvider for given chain

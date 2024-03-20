@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { isAddress } from "ethers/lib/utils";
+import { isAddress } from "ethers";
 import Blockies from "react-blockies";
 import { useEnsAddress, useEnsAvatar, useEnsName } from "wagmi";
 import { CommonInputProps, InputBase } from "~~/components/scaffold-eth";

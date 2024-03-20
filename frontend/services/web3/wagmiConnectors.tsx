@@ -9,8 +9,8 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { configureChains } from "wagmi";
 import * as chains from "wagmi/chains";
-import { alchemyProvider } from "wagmi/providers/alchemy";
-import { publicProvider } from "wagmi/providers/public";
+import { alchemyProvider } from "wagmi";
+import { publicProvider } from "wagmi";
 import scaffoldConfig from "~~/scaffold.config";
 import { burnerWalletConfig } from "~~/services/web3/wagmi-burner/burnerWalletConfig";
 import { getTargetNetwork } from "~~/utils/scaffold-eth";
