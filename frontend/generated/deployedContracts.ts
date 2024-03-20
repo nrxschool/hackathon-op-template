@@ -7,20 +7,20 @@ const deployedContracts = {
         Counter: {
           address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
           abi: [
-            { inputs: [], name: "increment", outputs: [], stateMutability: "nonpayable", type: "function" },
+            { type: "function", name: "increment", inputs: [], outputs: [], stateMutability: "nonpayable" },
             {
-              inputs: [],
-              name: "number",
-              outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-              stateMutability: "view",
               type: "function",
+              name: "number",
+              inputs: [],
+              outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+              stateMutability: "view",
             },
             {
-              inputs: [{ internalType: "uint256", name: "newNumber", type: "uint256" }],
+              type: "function",
               name: "setNumber",
+              inputs: [{ name: "newNumber", type: "uint256", internalType: "uint256" }],
               outputs: [],
               stateMutability: "nonpayable",
-              type: "function",
             },
           ],
         },
