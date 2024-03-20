@@ -6,3 +6,7 @@
 - **Docker**
 - **Node**
 - **Python**
+
+## Inicialização
+
+Para inicializar a aplicação execute o comando `./start.sh`
