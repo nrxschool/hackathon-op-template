@@ -5,7 +5,7 @@ import {Milestone} from "../src/Milestone.sol";
 import {Utils} from "./Utils.t.sol";
 
 contract BaseSetup is Utils {
-    Milestone milestone;
+    Milestone myContract;
 
     address[] _users;
     address controller;
@@ -33,7 +33,7 @@ contract BaseSetup is Utils {
         vm.label(zero, "ZERO");
 
         vm.startPrank(controller);
-        milestone = new Milestone(100);
+        myContract = new Milestone(100);
         vm.stopPrank();
     }
 
