@@ -1,14 +1,5 @@
-version: '3.8'
+version: "3.8"
 services:
-  frontend:
-    depends_on:
-      - anvil
-    build:
-      context: ./ui
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
-
   anvil:
     build:
       context: ./smartcontracts
@@ -22,3 +13,16 @@ services:
     build:
       context: ./smartcontracts
       dockerfile: Dockerfile.deploy
+    volumes:
+      - "./frontend/generated:/develop/generated"
+
+  frontend:
+    depends_on:
+      - anvil
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - "./frontend/generated:/app/generated"
