@@ -13,6 +13,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
+
 const LoginPage = () => {
     const [selectedAccount, setSelectedAccount] = useState<string | null>(null); // Estado para armazenar a conta selecionada
     const router = useRouter(); // Objeto router para redirecionamento
@@ -54,8 +55,8 @@ const LoginPage = () => {
             >
                 <Image
                     src={logo}
-                    // width={110}
-                    // height={110}
+                    // width={50}
+                    height={50}
                     alt="Picture of the author"
                 />
                 <Box p={36}>
@@ -127,9 +128,6 @@ const LoginPage = () => {
                     >
                         Entrar
                     </Button>
-                    <Link href="/user">
-                        <Text>testeeeeeeeeee</Text>
-                    </Link>
                 </Box>
             </Box>
         </Flex>
