@@ -4,7 +4,7 @@ services:
     depends_on:
       - anvil
     build:
-      context: ./ui
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
       - 3000:3000
