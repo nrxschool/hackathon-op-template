@@ -1,11 +1,11 @@
-# Use a imagem Node.js como base
+# Imagem com o node_modules instalado
 FROM olivmath/hackathon
 
 # Defina o diretório de trabalho dentro do contêiner
 WORKDIR /app
 
 # Copie o package.json e o package-lock.json (se existir) para o diretório de trabalho
-COPY ./src ./src 
+COPY . .
 
 # Instale as dependências do projeto
 RUN echo "Instalando dependências..." && npm install && echo "Dependências instaladas com sucesso."

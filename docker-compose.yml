@@ -2,7 +2,7 @@ version: '3.8'
 services:
   frontend:
     depends_on:
-      - anvil
+      - deploy
     build:
       context: ./frontend
       dockerfile: Dockerfile
