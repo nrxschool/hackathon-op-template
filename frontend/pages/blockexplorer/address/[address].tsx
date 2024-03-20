@@ -4,13 +4,18 @@ import fs from "fs";
 import { GetServerSideProps } from "next";
 import path from "path";
 import { hardhat, localhost } from "wagmi/chains";
-import { AddressCodeTab, AddressLogsTab, AddressStorageTab, PaginationButton, TransactionsTable } from "~~/components/blockexplorer/";
+import {
+  AddressCodeTab,
+  AddressLogsTab,
+  AddressStorageTab,
+  PaginationButton,
+  TransactionsTable,
+} from "~~/components/blockexplorer/";
 import { Address, Balance } from "~~/components/scaffold-eth";
 import deployedContracts from "~~/generated/deployedContracts";
 import { useFetchBlocks } from "~~/hooks/scaffold-eth";
 import { getLocalProvider } from "~~/utils/scaffold-eth";
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
-
 
 type AddressCodeTabProps = {
   bytecode: string;
