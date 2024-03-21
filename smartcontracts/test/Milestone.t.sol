@@ -57,7 +57,6 @@ contract MilestoneTest is BaseSetup {
         // then
         assertEq(address(myContract).balance, donation - secondMilestone);
         assertEq(controller.balance, initialValueFromUtils + secondMilestone);
-        
         assertTrue(myContract.getGoalAchieved(1));
         assertFalse(myContract.getGoalAchieved(2));
     }
@@ -87,6 +86,12 @@ contract MilestoneTest is BaseSetup {
         assertEq(address(myContract).balance, 0);
         assertEq(controller.balance, initialValueFromUtils + finalMilestone);
         assertTrue(myContract.getGoalAchieved(3));
+    }
+
+    function test_updateBalance_afterReceiveFunds() public {
+         myContract.donate{value: 100000}();
+
+         assertEq(myContract.balance(), 100000);
     }
 
     function test_donateToMilestoneAchived_revertDonate() public {  
