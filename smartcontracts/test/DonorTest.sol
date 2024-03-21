@@ -10,19 +10,46 @@ contract DonorTest is BaseSetup {
         BaseSetup.setUp();
     }
 
-    // function testDonateToCampaign() public {
-    //     address donorAddress = address(this);
-    //     uint256 donationAmount = 1 ether;
+    function testDonateToCampaign_Success() public {
+        // uint256 donationAmount = 1 ether;
 
-    //     // Approve the donation amount (if applicable based on your Campaign contract)
-    //     // campaign.approve(donor, donationAmount); // Uncomment if needed
+        
+        // vm.startPrank(donor1);
+        // donation.donateToCampaign{value: donationAmount}(address(campaign));
 
-    //     uint256 initialCampaignBalance = campaign.balance();
+        // vm.stopPrank();
 
-    //     vm.expectEmit(donor, "DonationRecorded", donorAddress, donationAmount, block.timestamp); // Expect DonationRecorded event
+        // address[] memory _donor ;
+        // uint256[] memory _amount ;
+        // uint256[] memory _timestamp;
 
-    //     donor.donateToCampaign(address(campaign), donationAmount);
+        // (_donor, _amount, _timestamp) = donation.getDonations(address(donor1));
 
-    //     assertEq(campaign.balance(), initialCampaignBalance + donationAmount);
-    // }
+        // // Assert donation details
+        // assertEq(_donor.length, 1);
+        // assertEq(_donor[0], address(this));
+        // assertEq(_amount[0], donationAmount);
+    }
+
+    function testDonateToCommunity_Success() public {
+
+        // donor.donateToCommunity{value: donationAmount}(communityAddress);
+
+        // Donation[] storage donorDonations = donor.donations(address(this));
+
+        // // Assert donation details (similar to testDonateToCampaign)
+        // assertEq(donorDonations.length, 1);
+        // assertEq(donorDonations[0].donor, address(this));
+        // assertEq(donorDonations[0].amount, donationAmount);
+        // // Year can be approximately verified using block.timestamp from deployment time
+    }
+
+    function testDonateToCampaign_NoFunds() public {
+        // address campaignAddress = address(this);
+
+        // // No vm.deal() to simulate insufficient funds
+
+        // vm.expectRevert("Insufficient gas sent for transaction");
+        // donation.donateToCampaign{value: 0}(campaignAddress);
+    }
 }

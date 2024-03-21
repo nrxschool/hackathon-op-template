@@ -14,7 +14,7 @@ contract BaseSetup is Utils {
     Community community;
     Community community2;
     Campaign campaign;
-    Donor donor;
+    Donor donation;
 
     address[] _users;
     address controller;
@@ -57,7 +57,7 @@ contract BaseSetup is Utils {
         vm.label(hackUser, "Bunny");
 
         vm.startPrank(controller);
-        donor = new Donor();
+        donation = new Donor();
         communityManager = new CommunityManager(manager);
         community =
             communityManager.addCommunity(1001, "comunidate1", "A melhor comunidade para teste", community1owner1);
@@ -66,7 +66,13 @@ contract BaseSetup is Utils {
         vm.stopPrank();
 
         vm.startPrank(community1owner1);
-        campaign = community.addCampaign("Super campanha 2024 para teste", 5 ether);
+        campaign = community.addCampaign{value: 0.0001 ether}("Super campanha 2024 para teste", 5 ether);
+        vm.stopPrank();
+
+        
+        vm.startPrank(donor1);
+        campaign.donate{value: 1 ether}();
+
         vm.stopPrank();
     }
 

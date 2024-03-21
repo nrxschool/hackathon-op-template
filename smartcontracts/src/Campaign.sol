@@ -5,21 +5,33 @@ import "./BaseFacet.sol";
 import "./Community.sol";
 import "./CommunityManager.sol";
 
+import "forge-std/console.sol";
+
 contract Campaign is BaseFacet {
+    error CampaignPaymmentMustUseDonateFunction();
+    error MinimunToPayNotAchieved();
+
+    event Log(uint256 gas);
+
     address public owner;
+    address payable public communityManagerAddress;
     address payable public community;
     string public description;
     uint256 public targetAmount;
     uint256 public raisedAmount;
+    uint256 public feeAmount;
+    uint256 public commisionAmount;
     bool public active;
 
     /**
-     * @dev Constructor that takes the name and description and initializes the campaign.
+     * @dev Constructor that takes the name and description and initializes the Campaign.
      * @param _communityAddress Adrress of the campaign.
      * @param _description Description of the campaign.
      * @param _targetAmount Target of the campaign.
      */
-    constructor(address _communityAddress, address _owner, string memory _description, uint256 _targetAmount) {
+    constructor(address _communityAddress, address _owner, string memory _description, uint256 _targetAmount) payable {
+        require(msg.value >= 0.00005 ether,"Minimal Funds to Create Campaign not acchieved");
+        feeAmount = msg.value;
         owner = _owner;
         community = payable(_communityAddress);
         description = _description;
@@ -27,26 +39,55 @@ contract Campaign is BaseFacet {
 
         targetAmount = _targetAmount;
         raisedAmount = 0;
+
+        Community communityTemp = Community(payable(_communityAddress));
+
+        communityManagerAddress = communityTemp.communityManagerAddress();
     }
 
     /**
      * @dev Allows users to donate to a campaign.
-     * @param _amount Donation amount.
      */
-    function donate(uint256 _amount) external payable {
-        uint256 commission = _amount * 1 / 1000; // 0.1% community manager commission
-        address payable communityManager = payable(CommunityManager(diamond).getCommunityManagerWallet());
-        communityManager.transfer(commission);
+    function donate() public payable {
+        uint256 _amount = msg.value;
+        if (_amount <= 0) {
+            revert MinimunToPayNotAchieved();
+        }
+        uint256 commission = _amount * 1 / 1000;
+        // tx.gasprice * tx.gaslimit
+        uint256 feeStorage = 100000;
+        if (_amount >= 200000)
+        {
+            _amount = _amount - commission - feeStorage;
+            // payable(communityManagerAddress).transfer(commission);
 
-        _amount = _amount - commission;
+        }
+        else {
+            if (_amount >= 100101){
+                _amount = _amount - commission - feeStorage;
+            } 
+            else  {
+                if (_amount > commission){ 
+                    _amount = 0;
+                    feeStorage = _amount - commission;
+                }
+                else {
+                    feeStorage = _amount;
+                    commission = 0;
+                    _amount = 0;
 
+                }
+            }
+        }
+        feeAmount += feeStorage;
+        commisionAmount += commission;
         raisedAmount += _amount;
     }
 
     /**
      * @dev Allows campaign owners to withdraw raised funds after the campaign is inactive.
      */
-    function withdrawFunds() external onlyCampaignOwner() {
+    function withdrawFunds() external onlyCampaignOwner {
         require(active == false, "Campaign must be inactive to withdraw funds");
         payable(owner).transfer(raisedAmount);
         raisedAmount = 0;
@@ -59,10 +100,23 @@ contract Campaign is BaseFacet {
      *
      * - The caller must be the owner of the campaign contract (enforced by the `onlyCampaignOwner` modifier).
      */
-    function transferToCommunityFunds() external onlyCampaignOwner() {
+    function transferToCommunityFunds() external onlyCampaignOwner {
         require(active == false, "Campaign must be inactive to transfer funds");
-        payable(community).transfer(raisedAmount);
+        Community(community).donate{value:raisedAmount}();
         raisedAmount = 0;
+    }
+
+    /**
+     * @dev This function allows a campaign owner to close  the campaign.
+     *
+     * Requirements:
+     *
+     * - The caller must be the owner of the campaign contract (enforced by the `onlyCampaignOwner` modifier).
+     */
+    function closeCampaign() external onlyCampaignOwner {
+        require(active == true, "Campaign must be active to allow closure");
+
+        active = false;
     }
 
     /**
@@ -72,11 +126,9 @@ contract Campaign is BaseFacet {
      * Requirements:
      *
      * - The caller must be the owner of the campaign contract (enforced by `onlyCampaignOwner` modifier).
-     *
-     * @param _isActive A boolean value determining whether to activate (true) or deactivate (false) the campaign.
      */
-    function setIsActive(bool _isActive) external onlyCampaignOwner() {
-        active = _isActive;
+    function setActive() external onlyCampaignOwner {
+        active = true;
     }
 
     /**
@@ -118,38 +170,28 @@ contract Campaign is BaseFacet {
     function functionSelectors() public pure override returns (bytes4[] memory) {
         bytes4[] memory selectors = new bytes4[](5); // Adjust the number based on your functions
 
-        selectors[0] = Campaign.donate.selector;
+        selectors[0] = Campaign.withdrawFunds.selector;
 
-        selectors[1] = Campaign.withdrawFunds.selector;
+        selectors[1] = Campaign.transferToCommunityFunds.selector;
 
-        selectors[2] = Campaign.transferToCommunityFunds.selector;
-
-        selectors[3] = Campaign.setIsActive.selector;
+        selectors[2] = Campaign.setActive.selector;
 
         return selectors;
     }
 
+    function getBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
 
     receive() external payable {
-        uint256 _amount = msg.value;
-        uint256 commission = _amount * 1 / 1000; // 0.1% community manager commission
-        address payable communityManager = payable(CommunityManager(diamond).getCommunityManagerWallet());
-        communityManager.transfer(commission);
+        revert CampaignPaymmentMustUseDonateFunction();
 
-        _amount = _amount - commission;
-
-        raisedAmount += _amount;
+        // raisedAmount += msg.value;
+        // donate(msg.value);
     }
 
     fallback() external payable {
-        // Code to handle unexpected Ether payments
-        uint256 _amount = msg.value;
-        uint256 commission = _amount * 1 / 1000; // 0.1% community manager commission
-        address payable communityManager = payable(CommunityManager(diamond).getCommunityManagerWallet());
-        communityManager.transfer(commission);
-
-        _amount = _amount - commission;
-
-        raisedAmount += _amount;
+        revert CampaignPaymmentMustUseDonateFunction();
+        
     }
 }

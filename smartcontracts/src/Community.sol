@@ -8,6 +8,10 @@ import "./Campaign.sol";
 contract Community is BaseFacet {
     error CampaignAlredyCreated();
     error CommuntyFundsCannotBeWithdraw();
+    error CommuntyPaymmentMustUseDonateFunction();
+    error MinimunToPayNotAchieved();
+
+    event Log(uint256 gas);
 
     struct ExpenseReport {
         // Mapping of expense category (string) to its amount (uint256)
@@ -29,6 +33,10 @@ contract Community is BaseFacet {
 
     uint64 public id;
     uint256 public raisedAmount;
+    uint256 public feeAmount;
+    uint256 public commisionAmount;
+
+    address payable public communityManagerAddress;
 
     mapping(uint64 => CommunityData) public community;
 
@@ -48,6 +56,8 @@ contract Community is BaseFacet {
 
         communityOwners[_communityOwner] = true;
         communityOwner = _communityOwner;
+
+        communityManagerAddress = payable(msg.sender);
     }
 
     /**
@@ -99,11 +109,11 @@ contract Community is BaseFacet {
     }
 
     function addCampaign(string memory _description, uint256 _targetAmount)
-        public
+        payable public
         onlyCommunityOwner
         returns (Campaign)
     {
-        Campaign newCampaign = new Campaign(address(this), msg.sender, _description, _targetAmount);
+        Campaign newCampaign = new Campaign{value: msg.value}(address(this), msg.sender, _description, _targetAmount);
 
         if (community[id].allowedCampaign) {
             community[id].currentCampaign = newCampaign;
@@ -118,22 +128,49 @@ contract Community is BaseFacet {
 
     /**
      * @dev Allows users to donate to a campaign.
-     * @param _amount Donation amount.
      */
-    function donate(uint256 _amount) external payable {
-        uint256 commission = _amount * 1 / 1000; // 0.1% community manager commission
-        address payable communityManager = payable(CommunityManager(diamond).getCommunityManagerWallet());
-        communityManager.transfer(commission);
+    function donate() public payable  {
+        uint256 _amount = msg.value;
+        // tx.gasprice * tx.gaslimit
+        uint256 feeStorage = 100000;
+        if (_amount <= feeStorage) {
+            revert MinimunToPayNotAchieved();
+        }
+        uint256 commission = _amount * 1 / 1000;
+        if (_amount >= 200000)
+        {
+            _amount = _amount - commission - feeStorage;
+            // payable(communityManagerAddress).transfer(commission);
 
-        _amount = _amount - commission;
+        }
+        else {
+            if (_amount >= 100101){
+                _amount = _amount - commission - feeStorage;
+            } 
+            else  {
+                if (_amount > commission){ 
+                    _amount = 0;
+                    feeStorage = _amount - commission;
+                }
+                else {
+                    feeStorage = _amount;
+                    commission = 0;
+                    _amount = 0;
 
+                }
+            }
+        }
+        feeAmount += feeStorage;
+        commisionAmount += commission;
         raisedAmount += _amount;
     }
 
-        /**
+
+
+    /**
      * @dev Allows campaign owners to withdraw raised funds after the campaign is inactive.
      */
-    function withdrawFunds() view external onlyCommunityOwner() {
+    function withdrawFunds() external view onlyCommunityOwner {
         // require(active == false, "Campaign must be inactive to withdraw funds");
         revert CommuntyFundsCannotBeWithdraw();
     }
@@ -177,27 +214,11 @@ contract Community is BaseFacet {
         return selectors;
     }
 
-    
-    receive() external payable {
-        uint256 _amount = msg.value;
-        uint256 commission = _amount * 1 / 1000; // 0.1% community manager commission
-        address payable communityManager = payable(CommunityManager(diamond).getCommunityManagerWallet());
-        communityManager.transfer(commission);
-
-        _amount = _amount - commission;
-
-        raisedAmount += _amount;
+    receive()  external payable {
+        revert CommuntyPaymmentMustUseDonateFunction();
     }
 
     fallback() external payable {
-        // Code to handle unexpected Ether payments
-        uint256 _amount = msg.value;
-        uint256 commission = _amount * 1 / 1000; // 0.1% community manager commission
-        address payable communityManager = payable(CommunityManager(diamond).getCommunityManagerWallet());
-        communityManager.transfer(commission);
-
-        _amount = _amount - commission;
-
-        raisedAmount += _amount;
+        revert CommuntyPaymmentMustUseDonateFunction();
     }
 }
