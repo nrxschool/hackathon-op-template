@@ -6,6 +6,9 @@ import IMile from './mile';
 import Mark from './steps/mark/mark';
 import Goal from './steps/goal/goal';
 import Token from './steps/token/token';
+import { useSDK } from "@metamask/sdk-react";
+import Web3 from 'web3';
+import Milestone from '../lib/contract/Milestone.json'
 
 const CreateMile = () => {
     const steps = ['Detalhes do projeto', 'Sua meta', 'Seus objetivos', 'Defina seus tokens', 'Milestone criada!']
@@ -26,8 +29,8 @@ const CreateMile = () => {
         goal100: '',
         token: ''
     });
-
     const [currentStep, setCurrentStep] = useState(0)
+    const { sdk, connected, connecting, account } = useSDK();
 
     const handleChange = (fieldName: string, value: string) => {
         setFormData({
@@ -36,21 +39,60 @@ const CreateMile = () => {
         });
     };
 
-    const handleSubmit = (event: any) => {
-        event.preventDefault();
-        // Aqui você pode enviar os dados do formulário para o backend
-        console.log('Dados do formulário:', formData);
+    const handleSubmit = async () => {
+        try {
+            console.log('Dados do formulário:', formData);
+            const goBrValue = 0.027
+
+            const tokens = formData.finalValue * 1000 * goBrValue
+
+            console.log('TOKENS', tokens)
+
+            if (!(window as any).ethereum) {
+                return;
+            }
+            await (window as any).ethereum.enable();
+
+            if (!connected) {
+                return
+            }
+
+            const web3 = new Web3((window as any).ethereum);
+            const abi: any[] = Milestone.abi
+            const bytecode: string = Milestone.bytecode.object
+
+            // Criar uma instância do contrato usando o objeto web3
+            const myContract = new web3.eth.Contract(abi);
+
+            const deployedContract = await myContract
+                .deploy({
+                    data: bytecode,
+                    arguments: [tokens], // Se houver construtor com argumentos, passe-os aqui
+                })
+                .send({
+                    from: account,
+                    gas: '2000000', // Limite de gás para implantação do contrato
+                });
+
+            // Obter o endereço do contrato implantado
+            const contractAddress = deployedContract.options.address;
+            console.log(contractAddress)
+        } catch (error) {
+            console.log(error)
+        }
+
     };
 
-    const handleNext = () => {
+
+    const handleNext = async () => {
         let step = 0;
         if (currentStep == 3) {
+            await handleSubmit()
             step = currentStep + 2
         } else {
             step = currentStep + 1
         }
         setCurrentStep(step)
-        console.log(formData)
     }
     const handlePrev = () => {
         let step = 0
@@ -98,7 +140,6 @@ const CreateMile = () => {
                 <img src="/img/flag.png" width={'40%'} />
             </div>
         </main>
-
     </>
 }
 

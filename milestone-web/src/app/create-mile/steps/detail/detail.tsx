@@ -14,6 +14,10 @@ const Detail: React.FC<DetailProps> = ({ formData, handleChange }) => {
 
   const options: IOption[] = [
     {
+      value: '',
+      name: 'Selecione'
+    },
+    {
       value: '1',
       name: 'Causas sociais'
     },

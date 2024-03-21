@@ -14,6 +14,10 @@ const Token: React.FC<TokenProps> = ({ formData, handleChange }) => {
 
     const options: IOption[] = [
         {
+            value: '',
+            name: 'Selecione'
+        },
+        {
             value: 'OP',
             name: 'OP',
             image: '/img/OP.png'
@@ -30,7 +34,7 @@ const Token: React.FC<TokenProps> = ({ formData, handleChange }) => {
             />
             <p className="disclaimer">No momento somente oferecemos suporte para a red Optmism. Em breve demais tokens e redes serão disponibilizadas.</p>
         </div>
-        <div style={{height: 350}}></div>
+        <div style={{ height: 350 }}></div>
     </>
     );
 };
