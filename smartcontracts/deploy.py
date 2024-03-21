@@ -27,10 +27,6 @@ CONTRACT_SCRIPT_NAME = "deploy.local.s.sol"
 TRANSACTIONS_PATH = f"broadcast/{CONTRACT_SCRIPT_NAME}/{CHAIN_ID}/run-latest.json"
 TARGET_DIR = "../frontend/generated/deployedContracts.ts"
 
-print(os.getcwd())
-
-
-
 
 def abi_path(name) -> str:
     return f"artifacts/{name}.sol/{name}.json"
