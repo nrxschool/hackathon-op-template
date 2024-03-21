@@ -7,6 +7,7 @@ import "./Campaign.sol";
 
 contract Community is BaseFacet {
     error CampaignAlredyCreated();
+    error CommuntyFundsCannotBeWithdraw();
 
     struct ExpenseReport {
         // Mapping of expense category (string) to its amount (uint256)
@@ -20,13 +21,14 @@ contract Community is BaseFacet {
     struct CommunityData {
         string name;
         string description;
-        bool allowedCampaign; 
+        bool allowedCampaign;
         Campaign currentCampaign;
         mapping(address => bool) approvedExpenses; // Mapping of approved expense addresses
         mapping(uint256 => ExpenseReport) expenseReports; // Mapping of year to expense report
     }
-    
+
     uint64 public id;
+    uint256 public raisedAmount;
 
     mapping(uint64 => CommunityData) public community;
 
@@ -96,10 +98,14 @@ contract Community is BaseFacet {
         // return report.reportData; // Access report data within the ExpenseReport struct
     }
 
-    function addCampaign(string memory _description, uint256 _targetAmount) public onlyCommunityOwner returns ( Campaign) {
-        Campaign newCampaign = new Campaign(address(this), _description, _targetAmount);
+    function addCampaign(string memory _description, uint256 _targetAmount)
+        public
+        onlyCommunityOwner
+        returns (Campaign)
+    {
+        Campaign newCampaign = new Campaign(address(this), msg.sender, _description, _targetAmount);
 
-        if (community[id].allowedCampaign){
+        if (community[id].allowedCampaign) {
             community[id].currentCampaign = newCampaign;
             community[id].allowedCampaign = false;
         } else {
@@ -111,6 +117,28 @@ contract Community is BaseFacet {
     }
 
     /**
+     * @dev Allows users to donate to a campaign.
+     * @param _amount Donation amount.
+     */
+    function donate(uint256 _amount) external payable {
+        uint256 commission = _amount * 1 / 1000; // 0.1% community manager commission
+        address payable communityManager = payable(CommunityManager(diamond).getCommunityManagerWallet());
+        communityManager.transfer(commission);
+
+        _amount = _amount - commission;
+
+        raisedAmount += _amount;
+    }
+
+        /**
+     * @dev Allows campaign owners to withdraw raised funds after the campaign is inactive.
+     */
+    function withdrawFunds() view external onlyCommunityOwner() {
+        // require(active == false, "Campaign must be inactive to withdraw funds");
+        revert CommuntyFundsCannotBeWithdraw();
+    }
+
+    /**
      * @dev Modifier to restrict function calls to Community Managers.
      */
     modifier onlyCommunityManager() {
@@ -119,7 +147,6 @@ contract Community is BaseFacet {
         _;
     }
 
-    
     /**
      * @dev Modifier to restrict function calls to Community Owner.
      */
@@ -148,5 +175,29 @@ contract Community is BaseFacet {
         //selectors[1] = Community.getActiveCampaigns.selector;
 
         return selectors;
+    }
+
+    
+    receive() external payable {
+        uint256 _amount = msg.value;
+        uint256 commission = _amount * 1 / 1000; // 0.1% community manager commission
+        address payable communityManager = payable(CommunityManager(diamond).getCommunityManagerWallet());
+        communityManager.transfer(commission);
+
+        _amount = _amount - commission;
+
+        raisedAmount += _amount;
+    }
+
+    fallback() external payable {
+        // Code to handle unexpected Ether payments
+        uint256 _amount = msg.value;
+        uint256 commission = _amount * 1 / 1000; // 0.1% community manager commission
+        address payable communityManager = payable(CommunityManager(diamond).getCommunityManagerWallet());
+        communityManager.transfer(commission);
+
+        _amount = _amount - commission;
+
+        raisedAmount += _amount;
     }
 }

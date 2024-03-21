@@ -6,16 +6,14 @@ import "./BaseFacet.sol";
 import "./Community.sol";
 
 contract CommunityManager is BaseFacet {
-
     error CommuntyAlredyRegistered();
 
     mapping(address => bool) public communityManagers;
     address public communityManager;
 
-    
     uint24 private communitiesCount;
 
-    mapping (uint64 => Community) public communities;
+    mapping(uint64 => Community) public communities;
     uint64[] public communityList;
 
     /**
@@ -37,37 +35,36 @@ contract CommunityManager is BaseFacet {
     function setCommunityManager(address _manager, bool _isManager) external onlyCommunityManager {
         communityManagers[_manager] = _isManager;
         communityManager = _manager;
-
     }
 
     /**
-    * @dev This function retrieves the total number of registered communities within the system.
-    *
-    * This value represents the count of communities that have been created and potentially managed
-    * through the Community Manager contract or related functionalities.
-    *
-    * @return uint24 The total number of registered communities (capped at 2**24 - 1).
-    *
-    * Note:
-    *
-    * - The return value is limited to `uint24` (maximum value of 2**24 - 1) to optimize storage usage.
-    */
+     * @dev This function retrieves the total number of registered communities within the system.
+     *
+     * This value represents the count of communities that have been created and potentially managed
+     * through the Community Manager contract or related functionalities.
+     *
+     * @return uint24 The total number of registered communities (capped at 2**24 - 1).
+     *
+     * Note:
+     *
+     * - The return value is limited to `uint24` (maximum value of 2**24 - 1) to optimize storage usage.
+     */
     function totalCommunities() public view returns (uint24) {
         return communitiesCount;
     }
 
     /**
-    * @dev This function retrieves the address of the currently set Community Manager.
-    *
-    * This address is expected to be payable, meaning it can receive Ether payments.
-    * The Community Manager is responsible for various community-related tasks within the ecosystem.
-    *
-    * @return address payable The address of the community manager wallet.
-    *
-    */
+     * @dev This function retrieves the address of the currently set Community Manager.
+     *
+     * This address is expected to be payable, meaning it can receive Ether payments.
+     * The Community Manager is responsible for various community-related tasks within the ecosystem.
+     *
+     * @return address payable The address of the community manager wallet.
+     *
+     */
     function getCommunityManagerWallet() external view returns (address payable) {
         // Implement logic to retrieve the community manager's wallet address
-        return payable(communityManager); 
+        return payable(communityManager);
     }
 
     /**
@@ -76,32 +73,35 @@ contract CommunityManager is BaseFacet {
      * @return True if the address is a community manager, False otherwise.
      */
     function isCommunityManager(address _manager) public view returns (bool) {
-        bool result =  false;
+        bool result = false;
         if (communityManagers[_manager] || msg.sender == diamond) {
-                result = true;
+            result = true;
         }
         return result;
     }
 
-    function addCommunity(uint64 _id, string memory _name, string memory _description, address _communityOwner) public returns ( Community) {
+    function addCommunity(uint64 _id, string memory _name, string memory _description, address _communityOwner)
+        public
+        returns (Community)
+    {
         Community newCommunity = new Community(_id, _name, _description, _communityOwner);
-        if (isCommunityRegistered(_id)){
+        if (isCommunityRegistered(_id)) {
             // Community is already registered
             revert CommuntyAlredyRegistered();
         } else {
             communityList.push(_id);
-            communitiesCount ++;
+            communitiesCount++;
         }
 
         return newCommunity;
     }
 
-    function isCommunityRegistered(uint64 _id) public view returns (bool){
+    function isCommunityRegistered(uint64 _id) public view returns (bool) {
         bool result = false;
         uint64[] memory list = communityList;
         for (uint24 i = 0; i < communitiesCount; i++) {
             uint64 item = list[i];
-            if (item == _id){
+            if (item == _id) {
                 result = true;
                 break;
             }
@@ -113,8 +113,6 @@ contract CommunityManager is BaseFacet {
         uint64[] memory list = communityList;
         return list;
     }
-
-
 
     /**
      * @dev Modifier to restrict function calls to the Community Manager contract.

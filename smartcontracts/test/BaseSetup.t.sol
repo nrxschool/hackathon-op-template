@@ -59,11 +59,12 @@ contract BaseSetup is Utils {
         vm.startPrank(controller);
         donor = new Donor();
         communityManager = new CommunityManager(manager);
-        community = communityManager.addCommunity(1001, "comunidate1", "A melhor comunidade para teste", community1owner1);
-        community2 = communityManager.addCommunity(1002, "comunidate2", "A maior comunidade para teste", community2owner1);
+        community =
+            communityManager.addCommunity(1001, "comunidate1", "A melhor comunidade para teste", community1owner1);
+        community2 =
+            communityManager.addCommunity(1002, "comunidate2", "A maior comunidade para teste", community2owner1);
         vm.stopPrank();
 
-        
         vm.startPrank(community1owner1);
         campaign = community.addCampaign("Super campanha 2024 para teste", 5 ether);
         vm.stopPrank();

@@ -5,6 +5,8 @@ pragma solidity ^0.8.15;
 
 import "./BaseFacet.sol";
 import "./Campaign.sol";
+import "./Community.sol";
+
 
 contract Donor is BaseFacet {
     struct Donation {
@@ -17,20 +19,21 @@ contract Donor is BaseFacet {
 
     /**
      * @dev Allows a donor to donate to a specific campaign.
-     * @param _campaign Address of the campaign.
      * @param _amount Donation amount.
      */
-    function donateToCampaign(address _campaign, uint256 _amount) external payable {
-        Campaign(diamond).donate(_campaign, _amount);
-        donations[msg.sender].push(Donation(msg.sender, _amount, block.timestamp)); // Year can be calculated from timestamp
+    function donateToCampaign(address _campaingAddress, uint256 _amount) external payable {
+        // Campaign(diamond).donate(_amount);
+        Campaign(payable(_campaingAddress)).donate(_amount);
+        donations[msg.sender].push(Donation(msg.sender, _amount, block.timestamp)); 
     }
 
     /**
      * @dev Allows a donor to donate directly to the community.
      * @param _amount Donation amount.
      */
-    function donateToCommunity(uint256 _amount) external payable {
-        payable(diamond).transfer(_amount);
+    function donateToCommunity(address _communityAddress, uint256 _amount) external payable {
+        payable(_communityAddress).transfer(_amount);
+        // Community(payable(_communityAddress)).donate(_amount);
         donations[msg.sender].push(Donation(msg.sender, _amount, block.timestamp)); // Year can be calculated from timestamp
     }
 

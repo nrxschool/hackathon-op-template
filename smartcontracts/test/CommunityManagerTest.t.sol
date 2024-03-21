@@ -22,7 +22,7 @@ contract CommunityManagerTest is BaseSetup {
 
         assertEq(communityManager.getCommunityManagerWallet(), alice);
     }
-    
+
     function testSetCommunityManagerNOK() public {
         vm.startPrank(hackUser);
         vm.expectRevert("Only Community Manager or Owner can perform this action");
@@ -34,18 +34,18 @@ contract CommunityManagerTest is BaseSetup {
 
     function testAddCommunity() public {
         uint24 initialCommunityCount = communityManager.totalCommunities();
-        
 
         // // vm.expectEmit(communityManager, "CommunityAdded", _community);
 
         // communityManager.addCommunity(_community);
-        community = communityManager.addCommunity(1003, "comunidate3", "A segunda maiou comunidade para teste", community2owner1);
+        community = communityManager.addCommunity(
+            1003, "comunidate3", "A segunda maiou comunidade para teste", community2owner1
+        );
 
         assertEq(communityManager.totalCommunities(), initialCommunityCount + 1);
         // bool isActive = CommunityManager(diamond).isActive();
         // assertEq(isActive, true);
     }
-
 
     function testRestrictNonOwnerSetCommunityManager() public {
         // address randomAddress = address(1); // Arbitrary non-owner/manager address
@@ -53,7 +53,6 @@ contract CommunityManagerTest is BaseSetup {
         // vm.expectRevert("Only Community Manager or Owner can perform this action");
         // manager.setCommunityManager(randomAddress); // Try setting from non-owner/manager
     }
-
 
     // Future Add more tests for other Community contract functions...
 }
