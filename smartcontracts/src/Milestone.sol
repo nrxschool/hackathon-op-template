@@ -2,11 +2,15 @@
 pragma solidity ^0.8.18;
 
 error ContractDisabled();
+error OnlyOwnerCaller();
 
 contract Milestone {
     address public owner;
     uint256 public balance;
     uint256 public finalMilestone;
+
+    address[] public donors;
+    mapping(address => uint256) public donationHistory;
 
     MileUnit[] public milestones;
 
@@ -22,10 +26,9 @@ contract Milestone {
     function donate() public payable {
         if (getGoalAchieved(3)) revert ContractDisabled();
 
-        balance += msg.value;
-
         for (uint8 index = 0; index < milestones.length; index++) {
             if (getGoalAchieved(index)) continue;
+
 
             if (address(this).balance >= milestones[index].value) {
                 milestones[index].goalAchieved = true;
@@ -35,15 +38,26 @@ contract Milestone {
                 }("");
 
                 if (!success) revert();
-            } else {
-                break;
             }
-
         }
+
+        balance += msg.value;
+        donors.push(msg.sender);
+        donationHistory[msg.sender] += msg.value;
     }
 
     function getGoalAchieved(uint8 index) public view returns(bool) {
         return milestones[index].goalAchieved;
+    }
+
+    function refund() external payable {
+        if (owner != msg.sender) revert OnlyOwnerCaller();
+
+        for (uint256 index; index < donors.length; index++) {
+            payable(donors[index]).call{                     
+                value: donationHistory[donors[index]]
+            }("");
+        }
     }
 
     receive() external payable {
