@@ -62,9 +62,13 @@ const ProductDetail = ({
         try {
             const accounts = await web3.eth.getAccounts();
 
-            console.log(contract.methods)
-
-            const result = await contract.methods.donate(web3.utils.toWei(amount, 'ether')).call();
+            const result = await contract.methods.donate().send(
+                {
+                    from: account,
+                    gas: '2000000',
+                    value: web3.utils.toWei(amount, 'ether')
+                }
+            );
 
             console.log('Transferência concluída:', result);
         } catch (error) {
