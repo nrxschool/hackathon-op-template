@@ -12,7 +12,9 @@ contract Mumbai is Script {
     function run() public {
         vm.startBroadcast();
 
-        milestone = new Milestone(100e18);
+        uint256 jan24 = 1704070163;
+        uint256 dec24 = 1735087763;
+        milestone = new Milestone(100e18, jan24, dec24);
 
         vm.stopBroadcast();
     }
