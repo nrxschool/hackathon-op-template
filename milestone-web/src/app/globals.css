@@ -147,6 +147,21 @@ form {
   /* Define a altura para ocupar toda a altura da tela */
 }
 
+.left-div {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.left-div .title1 {
+  font-size: 33px;
+  color: #24272A
+}
+.left-div .title2 {
+  font-size: 33px;
+  color: #4766F9
+}
+
 .centralized-div .title {
   font-size: 66px;
   color: #4766F9;

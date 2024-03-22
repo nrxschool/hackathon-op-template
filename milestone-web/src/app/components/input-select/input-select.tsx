@@ -25,7 +25,7 @@ const InputSelect: React.FC<InputSelectProps> = ({ label, value, options, onChan
         {options.map((option, index) => (
           <option key={index} value={option.value}>
             {option.name}
-        </option>
+          </option>
         ))}
       </select>
     </div>
