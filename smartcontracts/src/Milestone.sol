@@ -6,24 +6,24 @@ error DateOutOfRange();
 error OnlyOwnerCaller();
 
 contract Milestone {
-    address public owner;
     uint256 public balance;
-    uint256 public finalMilestone;
+    address public immutable owner;
+    uint256 public immutable finalMilestone;
 
     address[] public donors;
     mapping(address => uint256) public donationHistory;
 
-    uint256 startDate;
-    uint256 endDate;
+    uint256 immutable startDate;
+    uint256 immutable endDate;
 
-    MileUnit[] public milestones;
+    MileUnit[4] public milestones;
 
     constructor(uint256 _goal, uint256 _startDate, uint256 _endDate) {
         owner = msg.sender;
-        milestones.push(MileUnit(_goal * 10 / 100, false)); // %10
-        milestones.push(MileUnit(_goal * 25 / 100, false)); // 10 + 25 = 35%
-        milestones.push(MileUnit(_goal * 35 / 100, false)); // 35 + 35 = 70%
-        milestones.push(MileUnit(_goal * 30 / 100, false)); // 70 + 30 = 100%
+        milestones[0] = MileUnit(_goal * 10 / 100, false); // %10
+        milestones[1] = MileUnit(_goal * 25 / 100, false); // 10 + 25 = 35%
+        milestones[2] = MileUnit(_goal * 35 / 100, false); // 35 + 35 = 70%
+        milestones[3] = MileUnit(_goal * 30 / 100, false); // 70 + 30 = 100%
         finalMilestone = _goal;
         startDate = _startDate;
         endDate = _endDate;
