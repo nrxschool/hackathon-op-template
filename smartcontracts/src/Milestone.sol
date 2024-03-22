@@ -10,8 +10,11 @@ contract Milestone {
     address public immutable owner;
     uint256 public immutable finalMilestone;
 
+    uint8 private constant lastMilestoneIndex = 3;
+
     address[] public donors;
     mapping(address => uint256) public donationHistory;
+    mapping(uint8 => uint256) private milestonesPercent;
 
     uint256 immutable startDate;
     uint256 immutable endDate;
@@ -20,6 +23,10 @@ contract Milestone {
 
     constructor(uint256 _goal, uint256 _startDate, uint256 _endDate) {
         owner = msg.sender;
+        milestonesPercent[0] = 100;
+        milestonesPercent[1] = 90;
+        milestonesPercent[2] = 65;
+        milestonesPercent[3] = 30;
         milestones[0] = MileUnit(_goal * 10 / 100, false); // %10
         milestones[1] = MileUnit(_goal * 25 / 100, false); // 10 + 25 = 35%
         milestones[2] = MileUnit(_goal * 35 / 100, false); // 35 + 35 = 70%
@@ -30,7 +37,7 @@ contract Milestone {
     }
 
     function donate() public payable {
-        if (getGoalAchieved(3)) revert ContractDisabled();
+        if (getGoalAchieved(lastMilestoneIndex)) revert ContractDisabled();
         if (block.timestamp > endDate || block.timestamp < startDate) revert DateOutOfRange();
 
         for (uint8 index = 0; index < milestones.length; index++) {
@@ -40,7 +47,7 @@ contract Milestone {
                 milestones[index].goalAchieved = true;
 
                 (bool success, ) = payable(owner).call{                     
-                    value: index == 3 ? address(this).balance : milestones[index].value
+                    value: index == lastMilestoneIndex ? address(this).balance : milestones[index].value
                 }("");
 
                 if (!success) revert();
@@ -58,11 +65,12 @@ contract Milestone {
 
     function refund() public {
         if (owner != msg.sender) revert OnlyOwnerCaller();
+        uint256 currentBalance = address(this).balance;
 
         for (uint256 index; index < donors.length; index++) {
-            payable(donors[index]).call{                     
-                value: donationHistory[donors[index]]
-            }("");
+            uint256 valueToRefund = donationHistory[donors[index]] * currentBalance / balance;
+
+            payable(donors[index]).call{ value: valueToRefund }("");
         }
     }
 

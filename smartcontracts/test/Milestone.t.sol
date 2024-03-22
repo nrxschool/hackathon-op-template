@@ -6,6 +6,7 @@ import {BaseSetup} from "./BaseSetup.t.sol";
 contract MilestoneTest is BaseSetup {
 
     error ContractDisabled();
+    error OnlyOwnerCaller();
 
     uint256 constant firstMilestone = 10;
     uint256 constant secondMilestone = 35;
@@ -99,5 +100,15 @@ contract MilestoneTest is BaseSetup {
 
         vm.expectRevert(abi.encodeWithSelector(ContractDisabled.selector));
         myContract.donate{value: 42}();
+    }
+
+    function test_notOwnerCallRefund_ignoreRefund() public {
+        vm.expectRevert(abi.encodeWithSelector(OnlyOwnerCaller.selector));
+        myContract.refund();
+    }
+    
+    function test_onlyOwnerCanCallRefund_Refund() public {
+        vm.prank(controller);
+        myContract.refund();
     }
 }
