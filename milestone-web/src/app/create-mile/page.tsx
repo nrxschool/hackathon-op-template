@@ -49,12 +49,12 @@ const CreateMile = () => {
 
     const handleSubmit = async () => {
         try {
-            const tokens = formData.finalValue * 1000 / GO_BR_VALUE
+            
+            const startDataTS = new Date(formData.startDate).getTime()/1000
+            const endDataTS = new Date(formData.startDate).getTime()/1000
+            const tokens = parseInt((formData.finalValue * 1000 / GO_BR_VALUE)+'')
             formData.finalValue = formData.finalValue * 1000
             formData.qtdTokens = tokens
-
-            const startDataTS = new Date(formData.startDate).getTime()
-            const endDataTS = new Date(formData.startDate).getTime()
 
             if (!(window as any).ethereum) {
                 return;
@@ -74,7 +74,7 @@ const CreateMile = () => {
             const deployedContract = await myContract
                 .deploy({
                     data: bytecode,
-                    arguments: [tokens, startDataTS, endDataTS],
+                    arguments: [web3.utils.toWei(tokens, 'ether'), startDataTS, endDataTS],
                 })
                 .send({
                     from: account,
