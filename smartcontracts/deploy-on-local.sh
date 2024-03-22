@@ -6,5 +6,5 @@ forge script script/deploy.local.s.sol:Local \
     --broadcast \
     --verbosity
 
-python deploy.py
+python3 deploy.py
 

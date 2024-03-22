@@ -49,12 +49,12 @@ const CreateMile = () => {
 
     const handleSubmit = async () => {
         try {
-            const tokens = formData.finalValue * 1000 / GO_BR_VALUE
+            
+            const startDataTS = new Date(formData.startDate).getTime()/1000
+            const endDataTS = new Date(formData.startDate).getTime()/1000
+            const tokens = parseInt((formData.finalValue * 1000 / GO_BR_VALUE)+'')
             formData.finalValue = formData.finalValue * 1000
             formData.qtdTokens = tokens
-
-            const startDataTS = new Date(formData.startDate).getTime() / 1000
-            const endDataTS = new Date(formData.endDate).getTime() / 1000
 
             if (!(window as any).ethereum) {
                 return;

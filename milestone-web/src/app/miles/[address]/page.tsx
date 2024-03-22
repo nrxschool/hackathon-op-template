@@ -40,6 +40,8 @@ const ProductDetail = ({
                 if (response && response.data) {
                     const data: IMile[] = await response.data
 
+                    const finalMilestone = await contract.methods.finalMilestone().call()
+                    console.log('FINAL MILESTONE', finalMilestone)
 
                     const weiBalance: string = await contract.methods.balance().call()
                     const etherBalance = web3.utils.fromWei(weiBalance, 'ether');
