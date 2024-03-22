@@ -9,6 +9,7 @@ contract Milestone {
     uint256 public balance;
     address public immutable owner;
     uint256 public immutable finalMilestone;
+    bool private contractEnabled = true;
 
     uint8 private constant lastMilestoneIndex = 3;
 
@@ -37,9 +38,9 @@ contract Milestone {
     }
 
     function donate() public payable {
-        if (getGoalAchieved(lastMilestoneIndex)) revert ContractDisabled();
-        if (block.timestamp > endDate || block.timestamp < startDate) revert DateOutOfRange();
-
+        if (getGoalAchieved(lastMilestoneIndex) || !contractEnabled) revert ContractDisabled();
+        if (block.timestamp < startDate) revert DateOutOfRange();
+        
         for (uint8 index = 0; index < milestones.length; index++) {
             if (getGoalAchieved(index)) continue;
 
@@ -57,6 +58,10 @@ contract Milestone {
         balance += msg.value;
         donors.push(msg.sender);
         donationHistory[msg.sender] += msg.value;
+
+        if (block.timestamp > endDate) {
+            refund();
+        }
     }
 
     function getGoalAchieved(uint8 index) public view returns(bool) {
@@ -64,6 +69,9 @@ contract Milestone {
     }
 
     function refund() public {
+        if (!contractEnabled) revert ContractDisabled();
+
+        contractEnabled = false;
         if (owner != msg.sender) revert OnlyOwnerCaller();
         uint256 currentBalance = address(this).balance;
 
