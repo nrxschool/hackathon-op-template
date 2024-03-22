@@ -9,10 +9,11 @@ interface InputTextProps {
     type?: string
     icon?: IconDefinition;
     height?: number
+    width?: number
     onChange: (value: string) => void;
 }
 
-const InputText: React.FC<InputTextProps> = ({ type="text", label, value, icon, onChange, height=150 }) => {
+const InputText: React.FC<InputTextProps> = ({ type="text", label, value, icon, onChange, height=150, width }) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange(event.target.value);
     };
@@ -21,8 +22,10 @@ const InputText: React.FC<InputTextProps> = ({ type="text", label, value, icon, 
         onChange(event.target.value);
     };
 
+    const style = width ? {width: width} : {}
+
     return (
-        <div className="text-input">
+        <div className="text-input" style={style}>
             <label className="label">{label}</label>
             {!icon && type !== "textarea" && <input
                 type={type}

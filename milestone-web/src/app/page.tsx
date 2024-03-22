@@ -7,12 +7,12 @@ export default function Home() {
       <span className="title2">para atingir sua meta</span>
       <span className="subtitle font-inter">Crie sua vaquinha em minutos!</span>
       <div>
-        <button className='outline-button'>Consulte sua mile</button>
-        <Link href="/create-mile"> <button className='primary-button'>Crie sua mile!</button></Link>
-      </div>
-      <div className="footer-home">
-        <img src="/img/flag.png" alt="Descrição da imagem"/>
-      </div>
-    </main>
-  </>
+        <Link href="/search-mile"><button className='outline-button'>Consulte sua mile</button></Link>
+          <Link href="/create-mile"> <button className='primary-button'>Crie sua mile!</button></Link>
+        </div>
+          <div className="footer-home">
+            <img src="/img/flag.png" alt="Descrição da imagem" />
+          </div>
+        </main>
+      </>
 }
