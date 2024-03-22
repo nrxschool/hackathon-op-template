@@ -3,5 +3,6 @@ FROM ghcr.io/foundry-rs/foundry
 WORKDIR /develop
 COPY . .
 
+RUN forge install Openzeppelin/openzeppelin-contracts --no-commit
 RUN forge b --skip test
 CMD ["forge script script/deploy.local.s.sol:Local -f http://anvil:8545 --broadcast"]
