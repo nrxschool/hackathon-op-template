@@ -33,7 +33,7 @@ contract BaseSetup is Utils {
         vm.label(zero, "ZERO");
 
         vm.startPrank(controller);
-        myContract = new Milestone(100);
+        myContract = new Milestone(100, 0, 3333333333);
         vm.stopPrank();
     }
 
