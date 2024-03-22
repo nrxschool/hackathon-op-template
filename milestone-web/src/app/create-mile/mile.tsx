@@ -7,13 +7,17 @@ export default interface IMile {
     twitter: string,
     youTube: string,
     finalValue: number,
+    actualValue: number
+    qtdTokens: number,
     startDate: string,
     endDate: string,
     goal10: string,
     goal35: string,
     goal70: string,
     goal100: string,
-    token: string
+    token: string,
+    ownerAddress: string,
+    contractAddress: string,
 }
 
 export interface IOption {

@@ -4,7 +4,8 @@ import { MileModel } from '../model/mile';
 export class MileController {
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const miles = await MileModel.find();
+            const { query } = req
+            const miles = await MileModel.find(query);
             res.json(miles);
         } catch (error) {
             next(error)

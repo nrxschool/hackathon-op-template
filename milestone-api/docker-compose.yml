@@ -10,7 +10,7 @@ services:
     volumes:
       - ./src:/usr/src/app/src
     depends_on:
-      - mongo
+      - mongodb
   mongodb:
     image: mongo:latest
     container_name: mongodb-milestone

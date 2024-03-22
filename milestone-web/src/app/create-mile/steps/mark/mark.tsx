@@ -54,14 +54,14 @@ const Mark: React.FC<MarkProps> = ({ formData, handleChange }) => {
                     />
                 </div>
             </div>
-            <CustomSlider
+            {/* <CustomSlider
                 min={1}
                 max={36}
                 step={1}
                 value={formData.finalValue}
                 onChange={(value) => handleEndDateSlider(value)}
                 sufix='meses'
-                showValue={false}/>
+                showValue={false}/> */}
         </div>
         <div style={{height: 80}}></div>
     </>

@@ -11,7 +11,7 @@ const connectDB = async () => {
             user: 'milestone',
             pass: '123456'
         })
-
+        console.log(`MongoDB connection success`)
     } catch (error) {
         console.error('MongoDB connection failed:', error);
         process.exit(1);

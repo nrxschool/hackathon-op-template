@@ -9,6 +9,9 @@ import Token from './steps/token/token';
 import { useSDK } from "@metamask/sdk-react";
 import Web3 from 'web3';
 import Milestone from '../lib/contract/Milestone.json'
+import api from '../lib/api'
+import Success from './steps/success/success';
+import Link from 'next/link';
 
 const CreateMile = () => {
     const steps = ['Detalhes do projeto', 'Sua meta', 'Seus objetivos', 'Defina seus tokens', 'Milestone criada!']
@@ -21,13 +24,17 @@ const CreateMile = () => {
         twitter: '',
         youTube: '',
         finalValue: 0,
+        actualValue: 0,
+        qtdTokens: 0,
         startDate: '',
         endDate: '',
         goal10: '',
         goal35: '',
         goal70: '',
         goal100: '',
-        token: ''
+        token: '',
+        ownerAddress: '',
+        contractAddress: ''
     });
     const [currentStep, setCurrentStep] = useState(0)
     const { sdk, connected, connecting, account } = useSDK();
@@ -41,12 +48,14 @@ const CreateMile = () => {
 
     const handleSubmit = async () => {
         try {
-            console.log('Dados do formulário:', formData);
-            const goBrValue = 0.027
+            const goBrValue = 0.027 //GO FIXED VALUE
 
             const tokens = formData.finalValue * 1000 * goBrValue
+            formData.finalValue = formData.finalValue * 1000
+            formData.qtdTokens = tokens
 
-            console.log('TOKENS', tokens)
+            const startDataTS = new Date(formData.startDate).getTime()
+            const endDataTS = new Date(formData.startDate).getTime()
 
             if (!(window as any).ethereum) {
                 return;
@@ -61,38 +70,44 @@ const CreateMile = () => {
             const abi: any[] = Milestone.abi
             const bytecode: string = Milestone.bytecode.object
 
-            // Criar uma instância do contrato usando o objeto web3
             const myContract = new web3.eth.Contract(abi);
 
             const deployedContract = await myContract
                 .deploy({
                     data: bytecode,
-                    arguments: [tokens], // Se houver construtor com argumentos, passe-os aqui
+                    arguments: [tokens, startDataTS, endDataTS],
                 })
                 .send({
                     from: account,
-                    gas: '2000000', // Limite de gás para implantação do contrato
+                    gas: '2000000',
                 });
 
-            // Obter o endereço do contrato implantado
             const contractAddress = deployedContract.options.address;
-            console.log(contractAddress)
+
+            formData.contractAddress = contractAddress!
+            formData.ownerAddress = account!
+
+            await api.post('/v1/miles', formData)
         } catch (error) {
-            console.log(error)
+            throw error
         }
 
     };
 
 
     const handleNext = async () => {
-        let step = 0;
-        if (currentStep == 3) {
-            await handleSubmit()
-            step = currentStep + 2
-        } else {
-            step = currentStep + 1
+        try {
+            let step = 0;
+            if (currentStep == 3) {
+                await handleSubmit()
+                step = currentStep + 2
+            } else {
+                step = currentStep + 1
+            }
+            setCurrentStep(step)
+        } catch (error) {
+            console.log(error)
         }
-        setCurrentStep(step)
     }
     const handlePrev = () => {
         let step = 0
@@ -131,14 +146,21 @@ const CreateMile = () => {
                 {currentStep === 1 && <Mark formData={formData} handleChange={handleChange} />}
                 {currentStep === 2 && <Goal formData={formData} handleChange={handleChange} />}
                 {currentStep === 3 && <Token formData={formData} handleChange={handleChange} />}
+                {currentStep >= 4 && <Success formData={formData} />}
             </form>
-            <div>
+            {currentStep >= 4 && <div>
+                <img src="/img/flag.png" width={'30%'} />
+            </div>}
+            {currentStep < 4 && <div>
                 {currentStep > 0 && <button className='outline-button' onClick={handlePrev}>Voltar</button>}
                 <button className='primary-button' onClick={handleNext}>Avançar</button>
-            </div>
-            <div className="bottom-right-image" style={{ opacity: getOpacity() }}>
+            </div>}
+            {currentStep >= 4 && <div>
+                <Link href="/miles"><button className='primary-button'>Ver suas milestones</button></Link>
+            </div>}
+            {currentStep < 4 && <div className="bottom-right-image" style={{ opacity: getOpacity() }}>
                 <img src="/img/flag.png" width={'40%'} />
-            </div>
+            </div>}
         </main>
     </>
 }
