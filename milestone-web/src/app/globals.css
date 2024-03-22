@@ -155,12 +155,23 @@ form {
 
 .left-div .title1 {
   font-size: 33px;
-  color: #24272A
+  color: #24272A;
 }
 .left-div .title2 {
   font-size: 33px;
-  color: #4766F9
+  color: #4766F9;
 }
+
+.left-div .label {
+  font-size: 14px;
+  color: #24272A;
+}
+
+.left-div .balance {
+  font-size: 31px;
+  color: #24272A;
+}
+
 
 .centralized-div .title {
   font-size: 66px;
@@ -207,4 +218,16 @@ form {
   font-size: 14px;
   font-style: italic;
   margin: 10px;
+}
+
+.token {
+  color: #1E1F4B;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 12px;
+}
+
+.token img {
+  margin-right: 5px;
 }

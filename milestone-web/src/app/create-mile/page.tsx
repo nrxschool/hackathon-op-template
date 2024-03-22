@@ -12,6 +12,7 @@ import Milestone from '../lib/contract/Milestone.json'
 import api from '../lib/api'
 import Success from './steps/success/success';
 import Link from 'next/link';
+import { GO_BR_VALUE } from '../lib/constants';
 
 const CreateMile = () => {
     const steps = ['Detalhes do projeto', 'Sua meta', 'Seus objetivos', 'Defina seus tokens', 'Milestone criada!']
@@ -48,9 +49,7 @@ const CreateMile = () => {
 
     const handleSubmit = async () => {
         try {
-            const goBrValue = 0.027 //GO FIXED VALUE
-
-            const tokens = formData.finalValue * 1000 * goBrValue
+            const tokens = formData.finalValue * 1000 / GO_BR_VALUE
             formData.finalValue = formData.finalValue * 1000
             formData.qtdTokens = tokens
 

@@ -9,6 +9,7 @@ export default interface IMile {
     finalValue: number,
     actualValue: number
     qtdTokens: number,
+    actualQtdTokens?: number,
     startDate: string,
     endDate: string,
     goal10: string,

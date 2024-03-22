@@ -16,7 +16,7 @@ const SearchMile = () => {
             <span className="subtitle font-inter">Acompanhe sua mile e atinja a sua próxima meta</span>
             <div style={{display: 'flex', width: '40%', justifyContent: 'space-between'}}>
                 <InputText  onChange={(value) => handleChange(value)} value={address} width={400}/>
-                <Link href="/mile-detail"> <button className='primary-button'>Consultar</button></Link>
+                <Link href={`/miles/${address}`}> <button className='primary-button'>Consultar</button></Link>
             </div>
             <div className="footer-home">
                 <img src="/img/flag.png" alt="Descrição da imagem" />
