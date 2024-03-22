@@ -53,8 +53,8 @@ const CreateMile = () => {
             formData.finalValue = formData.finalValue * 1000
             formData.qtdTokens = tokens
 
-            const startDataTS = new Date(formData.startDate).getTime()
-            const endDataTS = new Date(formData.startDate).getTime()
+            const startDataTS = new Date(formData.startDate).getTime() / 1000
+            const endDataTS = new Date(formData.endDate).getTime() / 1000
 
             if (!(window as any).ethereum) {
                 return;
@@ -74,7 +74,7 @@ const CreateMile = () => {
             const deployedContract = await myContract
                 .deploy({
                     data: bytecode,
-                    arguments: [tokens, startDataTS, endDataTS],
+                    arguments: [web3.utils.toWei(tokens, 'ether'), startDataTS, endDataTS],
                 })
                 .send({
                     from: account,
