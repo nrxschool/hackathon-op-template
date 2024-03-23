@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import {Counter} from "../src/Counter.sol";
+import {Milestone} from "../src/Milestone.sol";
 import {Utils} from "./Utils.t.sol";
 
 contract BaseSetup is Utils {
-    Counter counter;
+    Milestone myContract;
 
     address[] _users;
     address controller;
@@ -33,7 +33,7 @@ contract BaseSetup is Utils {
         vm.label(zero, "ZERO");
 
         vm.startPrank(controller);
-        counter = new Counter();
+        myContract = new Milestone(100, 0, 3333333333);
         vm.stopPrank();
     }
 

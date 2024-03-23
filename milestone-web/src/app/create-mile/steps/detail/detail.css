@@ -1,0 +1,10 @@
+.detail-form {
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+}
+
+.label {
+    margin-bottom: 5px;
+    color: #092C4C;
+  }

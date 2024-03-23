@@ -1,0 +1,50 @@
+.success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.success .title3 {
+    text-align: center !important;
+    font-size: 33px;
+}
+
+.success .subtitle2 {
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+.mile-detail {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #1E1F4B;
+}
+
+.mile-detail .token {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 12px;
+}
+
+.label {
+    margin-bottom: 5px;
+    color: #092C4C;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.label-2 {
+    font-size: 10px;
+}
+
+.details {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-between;
+}

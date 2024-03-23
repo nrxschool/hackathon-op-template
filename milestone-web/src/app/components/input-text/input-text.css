@@ -1,0 +1,76 @@
+.text-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.label {
+    margin-bottom: 10px !important;
+    color: #092C4C;
+    font-size: 17px !important;
+}
+
+.input-container {
+    display: flex;
+}
+
+.input {
+    padding: 8px;
+    /* border: 1px solid #ccc; */
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    font-size: 17px;
+    height: 54px;
+    color: #092C4C;
+    background-color: #E9EDFF;
+    width: 100%;
+}
+
+.input-1 {
+    padding: 0 15px 0 15px;
+    /* border: 1px solid #ccc; */
+    border-radius: 8px;
+    font-size: 17px;
+    height: 54px;
+    color: #092C4C;
+    background-color: #E9EDFF;
+    width: 100%;
+}
+
+.input-1::placeholder {
+    font-size: 12px;
+}
+.input::placeholder {
+    font-size: 12px;
+}
+
+input:focus {
+    outline: none;
+    /* Remove a borda de foco */
+}
+
+.input-icon {
+    height: 36px;
+    padding: 9px 5px 9px 9px;
+    right: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    color: #092C4C;
+    background-color: #E9EDFF;
+    width: 25px;
+}
+
+.textarea {
+    padding: 8px 0 0 15px;
+    /* border: 1px solid #ccc; */
+    border-radius: 8px;
+    font-size: 17px;
+    color: #092C4C;
+    background-color: #E9EDFF;
+    width: 100%;
+}
+
+textarea:focus {
+    outline: none;
+    /* Remove a borda de foco */
+}

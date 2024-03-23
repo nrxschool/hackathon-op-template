@@ -1,0 +1,46 @@
+.slider-container {
+    margin-top: 50px;
+    position: relative;
+    width: 100%;
+}
+
+.slider-container-without-value {
+    margin-top: 0px !important;
+}
+
+.slider {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.value {
+    position: absolute;
+    top: -30px;
+    margin-left: 45px;
+    transform: translateX(-50%);
+    color: #242E39;
+    font-size: 24px;
+    padding-bottom: 20px;
+}
+
+.marks {
+    position: relative;
+    margin-top: 10px;
+}
+
+.marks span {
+    position: absolute;
+    top: 5px;
+    transform: translateX(-50%);
+    color: #000;
+}
+
+.slider-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 80px;
+}
+
+.slider-input .label {
+    font-size: 20px !important;
+}

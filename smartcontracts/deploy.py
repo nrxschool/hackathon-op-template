@@ -4,7 +4,8 @@ Automation for update debug section in front-end
 from dataclasses import dataclass, field
 from json import dumps, load
 from typing import List
-
+import os
+import shutil
 
 @dataclass
 class Contract:
@@ -56,8 +57,13 @@ for contract in contracts:
     }
 
 
+os.makedirs('../frontend/generated', exist_ok=True)
+
+
 typescript_content = f"const deployedContracts = {dumps(json_config)} as const; \n\n export default deployedContracts"
 
 
 with open(TARGET_DIR, "w") as ts_file:
     ts_file.write(typescript_content)
+
+shutil.copyfile("artifacts/Milestone.sol/Milestone.json", "../milestone-web/src/app/lib/contract/Milestone.json")

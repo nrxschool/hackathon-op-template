@@ -1,0 +1,1 @@
+export const GO_BR_VALUE = 0.027
