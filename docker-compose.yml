@@ -1,13 +1,13 @@
 version: '3.8'
 services:
-  frontend:
-    depends_on:
-      - deploy
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
+  # frontend:
+  #   depends_on:
+  #     - deploy
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3000:3000
 
   anvil:
     build:
@@ -16,9 +16,46 @@ services:
     ports:
       - 8545:8545
 
-  deploy:
-    depends_on:
-      - anvil
+  # deploy:
+  #   depends_on:
+  #     - anvil
+  #   build:
+  #     context: ./smartcontracts
+  #     dockerfile: Dockerfile.deploy
+  
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-milestone
+    volumes:
+      - ~/mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=milestone
+      - MONGO_INITDB_ROOT_USERNAME=milestone
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+    ports:
+      - '27017:27017'
+    restart: always
+
+  
+  node:
     build:
-      context: ./smartcontracts
-      dockerfile: Dockerfile.deploy
+      context: ./milestone-api
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./milestone-api/src:/usr/src/app/src
+    depends_on:
+      - mongodb
+
+  nextjs:
+    container_name: nextjs_container
+    build:
+      context: ./milestone-web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./milestone-web:/usr/src/app
+    environment:
+      - NODE_ENV=production # Define o ambiente como produção
