@@ -38,19 +38,27 @@ Nosso principal objetivo é garantir a integridade das informações e resultado
 - Docker Desktop latest (4.28.0)
 
 ### Instruções do projeto
--  Criar todos os serviços e subir o projeto localmente (roda na blockchain local do foundry)
+-  Criar todos os serviços e subir o projeto localmente (roda na blockchain local do foundry).
 Rodar o seguinte comando no terminal dentro do diretório do projeto:
 docker compose up
 
-- Parar todos os serviços em execução
+- Caso precisar parar todos os serviços em execução.
 Rodar o seguinte comando no terminal dentro do diretório do projeto:
 docker compose stop
 
-- Iniciar todos os serviços que já foram criados anteriormente
+- Caso precisar iniciar todos os serviços que já foram criados anteriormente.
 Rodar o seguinte comando no terminal dentro do diretório do projeto:
 docker compose start
 
-- Fazer deploy do smart contract na blockchain de teste da Optimism
+- Para fazer o deploy do smart contract na blockchain de teste da Optimism.
+Criar um arquivo .env dentro da pasta /smartcontracts do projeto e informar as seguintes credenciais:
+'''
+# URL do seu provider (Ex: url das credenciais de API da Alchemy)
+URL_PROVIDER=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Chave privada da sua conta de teste da metamask
+PRIVATE_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+'''
 Rodar o seguinte comando no terminal dentro da pasta /smartcontracts
 ./deploy-on-testnet.sh
 
