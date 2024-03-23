@@ -1,56 +1,67 @@
-import { useEffect, useState } from "react";
-import type { AppProps } from "next/app";
-import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
+import "../styles/global.css";
 import "@rainbow-me/rainbowkit/styles.css";
-import NextNProgress from "nextjs-progressbar";
-import { Toaster } from "react-hot-toast";
-import { useDarkMode } from "usehooks-ts";
-import { WagmiConfig } from "wagmi";
-import { Footer } from "~~/components/Footer";
-import { Header } from "~~/components/Header";
-import { BlockieAvatar } from "~~/components/scaffold-eth";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
-import { useGlobalState } from "~~/services/store/store";
-import { wagmiClient } from "~~/services/web3/wagmiClient";
-import { appChains } from "~~/services/web3/wagmiConnectors";
-import "~~/styles/globals.css";
+import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
+import dotenv from "dotenv";
 
-const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
-  const price = useNativeCurrencyPrice();
-  const setNativeCurrencyPrice = useGlobalState(state => state.setNativeCurrencyPrice);
-  // This variable is required for initial client side rendering of correct theme for RainbowKit
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
-  const { isDarkMode } = useDarkMode();
+import {
+    RainbowKitProvider,
+    getDefaultWallets,
+    Locale,
+    getDefaultConfig,
+} from "@rainbow-me/rainbowkit";
+import {
+    argentWallet,
+    trustWallet,
+    ledgerWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+import { WagmiProvider } from "wagmi";
+import {
+    anvil,
+    arbitrum,
+    mainnet,
+    optimism,
+    optimismSepolia,
+    polygon,
+} from "wagmi/chains";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-  useEffect(() => {
-    if (price > 0) {
-      setNativeCurrencyPrice(price);
-    }
-  }, [setNativeCurrencyPrice, price]);
+import LoginScreen from "../pages/login";
+import { ChakraProvider } from "@chakra-ui/react";
 
-  useEffect(() => {
-    setIsDarkTheme(isDarkMode);
-  }, [isDarkMode]);
+dotenv.config();
 
-  return (
-    <WagmiConfig client={wagmiClient}>
-      <NextNProgress />
-      <RainbowKitProvider
-        chains={appChains.chains}
-        avatar={BlockieAvatar}
-        theme={isDarkTheme ? darkTheme() : lightTheme()}
-      >
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="relative flex flex-col flex-1">
-            <Component {...pageProps} />
-          </main>
-          <Footer />
-        </div>
-        <Toaster />
-      </RainbowKitProvider>
-    </WagmiConfig>
-  );
-};
+const { wallets } = getDefaultWallets();
 
-export default ScaffoldEthApp;
+const config = getDefaultConfig({
+    appName: "RainbowKit demo",
+    projectId: "YOUR_PROJECT_ID",
+    wallets: [
+        ...wallets,
+        {
+            groupName: "Other",
+            wallets: [argentWallet, trustWallet, ledgerWallet],
+        },
+    ],
+    chains: [anvil, optimism, optimismSepolia, mainnet, polygon, arbitrum],
+    ssr: true,
+});
+
+const queryClient = new QueryClient();
+
+function MyApp({ Component, pageProps }: AppProps) {
+    const { locale } = useRouter() as { locale: Locale };
+    return (
+        <WagmiProvider config={config}>
+            <QueryClientProvider client={queryClient}>
+                <RainbowKitProvider locale={locale}>
+                    <ChakraProvider>
+                        <Component {...pageProps} />
+                    </ChakraProvider>
+                </RainbowKitProvider>
+            </QueryClientProvider>
+        </WagmiProvider>
+    );
+}
+
+export default MyApp;

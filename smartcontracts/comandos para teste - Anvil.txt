@@ -1,0 +1,38 @@
+// Deploy do contrato na blockchain local simulada
+forge script script/deploy.local.s.sol:Local --rpc-url "http://127.0.0.1:8545" --broadcast
+
+
+// Adiciona dados de uma nova competição como proprietário
+cast send \
+    --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 \
+    --rpc-url "http://127.0.0.1:8545" \
+    "0x5FbDB2315678afecb367f032d93F642f64180aa3" "addCompetitionResult(string memory, string memory)()" "Hackathon 02" "2222"
+
+
+// Tenta adicionar dados de uma nova competição com outro sender
+cast send \
+    --private-key 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d \
+    --rpc-url "http://127.0.0.1:8545" \
+    "0x5FbDB2315678afecb367f032d93F642f64180aa3" "addCompetitionResult(string memory, string memory)()" "Hackathon 02" "2222"
+
+
+// Obtém o resultado de uma competição pelo hashId
+cast call \
+    --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 \
+    --rpc-url "http://127.0.0.1:8545" \
+    "0x5FbDB2315678afecb367f032d93F642f64180aa3" "getCompetitionResult(string memory)(string memory, string memory, uint256)" "1111"
+
+
+// Obtém o proprietário do contrato
+cast call \
+    --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 \
+    --rpc-url "http://127.0.0.1:8545" \
+    "0x5FbDB2315678afecb367f032d93F642f64180aa3" "owner()(address)" 
+
+
+// Obtém o total de competições adicionadas no contrato
+cast call \
+    --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 \
+    --rpc-url "http://127.0.0.1:8545" \
+    "0x5FbDB2315678afecb367f032d93F642f64180aa3" "competitionsCount()(uint256)" 
+

@@ -36,6 +36,3 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-
-# deploy update
-deployedContracts.ts

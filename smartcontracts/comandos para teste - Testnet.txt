@@ -1,0 +1,34 @@
+// Adiciona dados de uma nova competição como proprietário
+cast send \
+    --private-key $PRIVATE_KEY \
+    --rpc-url $URL_PROVIDER \
+    "0xfbDFF2Df3FC90C40F82deB480BAAEDB29FCb9B82" "addCompetitionResult(string memory, string memory)()" "Hackathon 02" "2222"
+
+
+// Tenta adicionar dados de uma nova competição com outro sender
+cast send \
+    --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80  \
+    --rpc-url $URL_PROVIDER \
+    "0xfbDFF2Df3FC90C40F82deB480BAAEDB29FCb9B82" "addCompetitionResult(string memory, string memory)()" "Hackathon 02" "2222"
+
+
+// Obtém o resultado de uma competição pelo hashId
+cast call \
+    --private-key $PRIVATE_KEY \
+    --rpc-url $URL_PROVIDER \
+    "0xfbDFF2Df3FC90C40F82deB480BAAEDB29FCb9B82" "getCompetitionResult(string memory)(string memory, string memory, uint256)" "1111"
+
+
+// Obtém o proprietário do contrato
+cast call \
+    --private-key $PRIVATE_KEY \
+    --rpc-url $URL_PROVIDER \
+    "0xfbDFF2Df3FC90C40F82deB480BAAEDB29FCb9B82" "owner()(address)" 
+
+
+// Obtém o total de competições adicionadas no contrato
+cast call \
+    --private-key $PRIVATE_KEY \
+    --rpc-url $URL_PROVIDER \
+    "0xfbDFF2Df3FC90C40F82deB480BAAEDB29FCb9B82" "competitionsCount()(uint256)" 
+
