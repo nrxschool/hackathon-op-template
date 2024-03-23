@@ -1,13 +1,13 @@
 version: '3.8'
 services:
-  frontend:
-    depends_on:
-      - anvil
-    build:
-      context: ./ui
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
+  # frontend:
+  #   depends_on:
+  #     - deploy
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3000:3000
 
   anvil:
     build:

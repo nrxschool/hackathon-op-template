@@ -1,3 +1,5 @@
+# Baixa imagem docker do foundry
 FROM ghcr.io/foundry-rs/foundry
 
+# Comando para executar a blockchain local do anvil, gerando 1 bloco a cada 3 segundos.
 ENTRYPOINT [ "anvil", "--host", "0.0.0.0", "-b", "3" ]

@@ -1,7 +1,10 @@
+# Baixa imagem docker do foundry
 FROM ghcr.io/foundry-rs/foundry
 
+# Define o diretório de desenvolvimento dentro do container e copia os arquivos do diretório atual para o container.
 WORKDIR /develop
 COPY . .
 
+# Comando para compilar e executar o script que faz o deploy do contrato na blockchain local do anvil.
 RUN forge b --skip test
-CMD ["forge script scripts/deploy.local.s.sol:Local -f http://anvil:8545 --broadcast"]
+CMD ["forge script script/deploy.local.s.sol:Local -f http://anvil:8545 --broadcast"]
