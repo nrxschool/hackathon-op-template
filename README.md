@@ -65,6 +65,19 @@ Rodar o seguinte comando no terminal dentro da pasta /smartcontracts
  - Caso precisar de permissão para rodar o script .sh no terminal do linux, rodar o seguinte comando no terminal:
 chmod +x ./deploy-on-testnet.sh
 
+No frontend:
+
+-Deve-se navegar até a pasta do frontend.
+-Executar o comando npm i em seu prompt
+-E logo após, executar o comando npm run dev
+
+-Também deve-se criar um arquivo .env da seguinte forma(apenas para testes):
+
+URL_PROVIDER= # URL da API da Alchemy na rede Optimism Sepolia
+
+PRIVATE_KEY= # Chave privada da conta de teste da metamask
+
+
 ## Utilização
 
 ### Exemplos de Uso
