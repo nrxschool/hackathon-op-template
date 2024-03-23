@@ -52,13 +52,9 @@ docker compose start
 
 - Para fazer o deploy do smart contract na blockchain de teste da Optimism.
 Criar um arquivo .env dentro da pasta /smartcontracts do projeto e informar as seguintes credenciais:
-'''
-# URL do seu provider (Ex: url das credenciais de API da Alchemy)
 URL_PROVIDER=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-# Chave privada da sua conta de teste da metamask
 PRIVATE_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-'''
+
 Rodar o seguinte comando no terminal dentro da pasta /smartcontracts
 ./deploy-on-testnet.sh
 
