@@ -71,10 +71,6 @@ chmod +x ./deploy-on-testnet.sh
   <img src="https://i.imgur.com/b7IpmGk.png" alt="imgur"/>
   <img src="https://i.imgur.com/EJtuvsa.png" alt="imgur"/>
   <img src="https://i.imgur.com/EyuSvxC.png" alt="imgur"/>
-
-        <sub>
-        </sub>
-      </a>
    
 
 ## Contribuição
