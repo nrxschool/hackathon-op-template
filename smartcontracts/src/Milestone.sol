@@ -5,7 +5,10 @@ error ContractDisabled();
 error DateOutOfRange();
 error OnlyOwnerCaller();
 
+
 contract Milestone {
+    event Donate();
+
     uint256 public balance;
     address public immutable owner;
     uint256 public immutable finalMilestone;
@@ -58,6 +61,8 @@ contract Milestone {
         balance += msg.value;
         donors.push(msg.sender);
         donationHistory[msg.sender] += msg.value;
+
+        emit Donate();
 
         if (block.timestamp > endDate) {
             refund();
