@@ -63,10 +63,6 @@ contract Milestone {
         donationHistory[msg.sender] += msg.value;
 
         emit Donate();
-
-        if (block.timestamp > endDate) {
-            refund();
-        }
     }
 
     function getGoalAchieved(uint8 index) public view returns(bool) {
