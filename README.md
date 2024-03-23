@@ -122,7 +122,7 @@ Agradecemos a todos os contribuidores e apoiadores que tornaram este projeto pos
 
 ## Histórico de Alterações
 
-### Versão 1.0.0 (dd/mm/aaaa)
+### Versão 0.0.1 (semVer) (22/03/2024)
 - Lançamento inicial do projeto.
 
 ## Suporte
