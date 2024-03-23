@@ -13,6 +13,7 @@ const MileDetail: React.FC<MileDetailProps> = ({ mile }) => {
             <div className="details-container">
                 <div className="mile-detail">
                     <span className="label">{mile.name}</span>
+                    <span style={{fontSize: 10}}>{mile.contractAddress}</span>
                     <div className="token">
                         <img src="/img/OP.png" /> {mile.token}
                     </div>

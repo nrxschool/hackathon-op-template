@@ -27,7 +27,7 @@ const CustomSlider: React.FC<CustomSliderProps> = ({ min, max, step, label, valu
         marks.set(25, max * .25)
         marks.set(50, max * .50)
         marks.set(75, max * .75)
-        marks.set(100, max)
+        marks.set(97, max)
 
         return marks
     }
@@ -48,7 +48,7 @@ const CustomSlider: React.FC<CustomSliderProps> = ({ min, max, step, label, valu
                 {showValue && <div className="value">{`${prefix ? prefix : ''} ${rangeValue} ${sufix ? sufix : ''}`}</div>}
                 <div className="marks">
                     {Array.from(getMarks()).map(([key, value]) => (
-                        <span key={key} style={{ left: `${key}%` }}><div>{`${value}${sufix ? sufix : ''}`}</div></span>
+                        <span key={key} style={{ left: `${key}%` }}><div style={{fontSize: 18}}>{`${value}${sufix ? sufix : ''}`}</div></span>
                     ))}
                 </div>
             </div>

@@ -32,9 +32,12 @@ const Token: React.FC<TokenProps> = ({ formData, handleChange }) => {
                 value={formData.token}
                 onChange={(value) => handleChange('token', value)}
             />
-            <p className="disclaimer">No momento somente oferecemos suporte para a red Optmism. Em breve demais tokens e redes serão disponibilizadas.</p>
+            <div style={{ marginTop: 250 }}></div>
+            <div style={{padding: '0 50px 0 50px'}}>
+                <p className="disclaimer">No momento somente oferecemos suporte para a rede Optmism. Em breve demais tokens e redes serão disponibilizadas. Ao avançar você concorda com nossos <span>Termos de serviços</span> e <span>Políticas de privacidade</span></p>
+            </div>
         </div>
-        <div style={{ height: 350 }}></div>
+        <div style={{ height: 0 }}></div>
     </>
     );
 };

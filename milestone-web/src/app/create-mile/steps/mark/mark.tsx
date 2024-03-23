@@ -35,7 +35,7 @@ const Mark: React.FC<MarkProps> = ({ formData, handleChange }) => {
                         sufix='mil' />
                 </div>
             </div>
-            <label className="label">Duração da mile</label>
+            <label className="label-mark">Duração da mile</label>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div style={{ width: '48%' }}>
                     <InputText

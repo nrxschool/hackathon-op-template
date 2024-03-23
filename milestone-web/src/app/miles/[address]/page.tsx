@@ -78,21 +78,24 @@ const ProductDetail = ({
 
     return <>
         {mile && <main className="flex min-h-screen flex-col items-center justify-between p-24 left-div font-poppin">
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div>
-                    <span className="title1">{mile.name}</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: 60}}>
+                <div style={{width: '33%'}}>
+                    <span className="title1" style={{fontSize: 50}}>{mile.name}</span>
                     <div className="token">
-                        <img src="/img/OP.png" /> {mile.actualQtdTokens} {mile.token}
+                        <img src="/img/OP.png" style={{height: 50}}/><span style={{fontSize: 30, marginLeft: 10}}>{mile.actualQtdTokens} {mile.token}</span>
                     </div>
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', marginTop: 20 }}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <span className="label">Balanço atual $BRL</span>
+                            <span className="label-1" style={{fontSize: 20}}>Balanço atual $BRL</span>
                             <span className="balance">{mile.actualValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                         </div>
                         <img src="/img/valorization.png" width="200px" />
                     </div>
                 </div>
-                <div style={{ backgroundColor: '#fff' }}>
+                <div>
+                    <img src="/img/card-column-2.png" />
+                </div>
+                <div style={{ backgroundColor: '#fff', width: '30%' }}>
                     <div style={{ borderBottom: '1px solid #D2D2D2', paddingBottom: 15 }}>
                         <span className="title1" style={{ fontSize: 20 }}>Transferência de ativos</span>
                     </div>
@@ -113,9 +116,9 @@ const ProductDetail = ({
                     <div style={{ marginTop: 20 }}>
                         <InputText label="Quantidade" value={amount} onChange={setAmout} />
                     </div>
-                    <button className='primary-button' onClick={transferTokens}><span style={{ display: 'flex', justifyContent: 'space-around' }}>Faça sua doação <img src="/img/donation.png" /></span></button>
+                    <button className='primary-button-create' style={{width: '100%', marginLeft: 0}} onClick={transferTokens}><span style={{ display: 'flex',fontSize: 25, justifyContent: 'center' }}>Faça sua doação <img src="/img/donation.png" style={{marginLeft: 20, width: 35}} /></span></button>
                 </div>
-                <img src="/img/donations-graph.png" style={{ width: '45%', height: '100%' }} />
+                {/* <img src="/img/donations-graph.png" style={{ width: '45%', height: '100%' }} /> */}
             </div>
             <img src="/img/transactions.png" />
         </main>}

@@ -1,9 +1,18 @@
 .mark-form {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .label {
     margin-bottom: 5px;
     color: #092C4C;
-  }
+    font-size: 20px;
+}
+
+.label-mark {
+    margin-bottom: 5px;
+    color: #092C4C;
+    font-size: 20px;
+    font-weight: bold;
+}

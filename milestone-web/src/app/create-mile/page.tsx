@@ -49,10 +49,10 @@ const CreateMile = () => {
 
     const handleSubmit = async () => {
         try {
-            
-            const startDataTS = new Date(formData.startDate).getTime()/1000
-            const endDataTS = new Date(formData.startDate).getTime()/1000
-            const tokens = parseInt((formData.finalValue * 1000 / GO_BR_VALUE)+'')
+
+            const startDataTS = new Date(formData.startDate).getTime() / 1000
+            const endDataTS = new Date(formData.startDate).getTime() / 1000
+            const tokens = parseInt((formData.finalValue * 1000 / GO_BR_VALUE) + '')
             formData.finalValue = formData.finalValue * 1000
             formData.qtdTokens = tokens
 
@@ -129,6 +129,23 @@ const CreateMile = () => {
             case 3:
                 return 0.8
             case 4:
+            case 5:
+                return 1
+        }
+    }
+
+    const getMargin = () => {
+        switch (currentStep) {
+            case 0:
+                return '-95px'
+            case 1:
+                return '-60px'
+            case 2:
+                return 0.6
+            case 3:
+                return 0.8
+            case 4:
+            case 5:
                 return 1
         }
     }
@@ -141,23 +158,25 @@ const CreateMile = () => {
             <span className="subtitle2">Preencha os dados</span>
             <ProgressBar currentStep={currentStep} steps={steps} />
             <form>
-                {currentStep === 0 && <Detail formData={formData} handleChange={handleChange} />}
-                {currentStep === 1 && <Mark formData={formData} handleChange={handleChange} />}
-                {currentStep === 2 && <Goal formData={formData} handleChange={handleChange} />}
-                {currentStep === 3 && <Token formData={formData} handleChange={handleChange} />}
-                {currentStep >= 4 && <Success formData={formData} />}
+                <div style={{display: 'flex', justifyContent: 'center', width: '70%'}}>
+                    {currentStep === 0 && <Detail formData={formData} handleChange={handleChange} />}
+                    {currentStep === 1 && <Mark formData={formData} handleChange={handleChange} />}
+                    {currentStep === 2 && <Goal formData={formData} handleChange={handleChange} />}
+                    {currentStep === 3 && <Token formData={formData} handleChange={handleChange} />}
+                    {currentStep >= 4 && <Success formData={formData} />}
+                </div>
             </form>
-            {currentStep >= 4 && <div>
+            {currentStep >= 4 && <div style={{display: 'flex', justifyContent: 'center', marginTop: 100, marginBottom: 100}}>
                 <img src="/img/flag.png" width={'30%'} />
             </div>}
-            {currentStep < 4 && <div>
-                {currentStep > 0 && <button className='outline-button' onClick={handlePrev}>Voltar</button>}
-                <button className='primary-button' onClick={handleNext}>Avançar</button>
+            {currentStep < 4 && <div style={{ marginTop: 50 }}>
+                {currentStep > 0 && <button className='outline-button-create' onClick={handlePrev}>Voltar</button>}
+                <button className='primary-button-create' onClick={handleNext}>Avançar</button>
             </div>}
             {currentStep >= 4 && <div>
-                <Link href="/miles"><button className='primary-button'>Ver suas milestones</button></Link>
+                <Link href="/search-mile"><button className='primary-button-create'>Ver suas milestones</button></Link>
             </div>}
-            {currentStep < 4 && <div className="bottom-right-image" style={{ opacity: getOpacity() }}>
+            {currentStep < 4 && <div className="bottom-right-image" style={{ opacity: getOpacity(), marginTop: getMargin() }}>
                 <img src="/img/flag.png" width={'40%'} />
             </div>}
         </main>

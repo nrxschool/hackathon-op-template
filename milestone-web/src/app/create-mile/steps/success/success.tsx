@@ -13,9 +13,9 @@ const Success: React.FC<SuccessProps> = ({ formData }) => {
 
     return (<>
         <div className="success">
-            <span className="title3">Parabéns! Sua jornada está só começando!</span>
+            <span className="title3">Parabéns! Sua jornada está começando!</span>
             <span className="subtitle2">Acompanhe e compartilhe sua Mile com a comunidade</span>
-            <MileDetail mile={formData} />
+            {/* <MileDetail mile={formData} /> */}
         </div>
     </>
     );

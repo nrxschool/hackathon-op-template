@@ -43,6 +43,7 @@ const Detail: React.FC<DetailProps> = ({ formData, handleChange }) => {
             label="Nome da mile"
             value={formData.name}
             onChange={(value) => handleChange('name', value)}
+            placeholder='Mile'
           />
         </div>
         <div style={{ width: '48%' }}>
@@ -59,6 +60,7 @@ const Detail: React.FC<DetailProps> = ({ formData, handleChange }) => {
         label="Descreva seu projeto"
         value={formData.description}
         onChange={(value) => handleChange('description', value)}
+        placeholder='Coleta de recursos para...'
       />
       <label className="label">Redes sociais</label>
       <div style={{ display: 'flex', justifyContent: 'space-between'}}>
@@ -67,6 +69,7 @@ const Detail: React.FC<DetailProps> = ({ formData, handleChange }) => {
             icon={faFacebook}
             value={formData.facebook}
             onChange={(value) => handleChange('facebook', value)}
+            placeholder='https://facebook.com'
           />
         </div>
         <div style={{ width: '48%' }}>
@@ -74,6 +77,7 @@ const Detail: React.FC<DetailProps> = ({ formData, handleChange }) => {
             icon={faInstagram}
             value={formData.instagram}
             onChange={(value) => handleChange('instagram', value)}
+            placeholder='https://instagram.com'
           />
         </div>
       </div>
@@ -83,6 +87,7 @@ const Detail: React.FC<DetailProps> = ({ formData, handleChange }) => {
             icon={faXTwitter}
             value={formData.twitter}
             onChange={(value) => handleChange('twitter', value)}
+            placeholder='https://twitter.com'
           />
         </div>
         <div style={{ width: '48%' }}>
@@ -90,6 +95,7 @@ const Detail: React.FC<DetailProps> = ({ formData, handleChange }) => {
             icon={faYoutube}
             value={formData.youTube}
             onChange={(value) => handleChange('youTube', value)}
+            placeholder='https://youtube.com'
           />
         </div>
       </div>

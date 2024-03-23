@@ -16,10 +16,10 @@
 .value {
     position: absolute;
     top: -30px;
-    margin-left: 35px;
+    margin-left: 45px;
     transform: translateX(-50%);
     color: #242E39;
-    font-size: 18px;
+    font-size: 24px;
     padding-bottom: 20px;
 }
 
@@ -38,5 +38,9 @@
 .slider-input {
     display: flex;
     flex-direction: column;
-    margin-bottom: 50px;
+    margin-bottom: 80px;
+}
+
+.slider-input .label {
+    font-size: 20px !important;
 }

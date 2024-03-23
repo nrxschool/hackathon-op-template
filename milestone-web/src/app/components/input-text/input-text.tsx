@@ -10,10 +10,11 @@ interface InputTextProps {
     icon?: IconDefinition;
     height?: number
     width?: number
+    placeholder?: string
     onChange: (value: string) => void;
 }
 
-const InputText: React.FC<InputTextProps> = ({ type="text", label, value, icon, onChange, height=150, width }) => {
+const InputText: React.FC<InputTextProps> = ({ type="text", label, value, icon, onChange, height=150, width, placeholder }) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange(event.target.value);
     };
@@ -32,6 +33,7 @@ const InputText: React.FC<InputTextProps> = ({ type="text", label, value, icon, 
                 className="input-1"
                 value={value}
                 onChange={handleChange}
+                placeholder={placeholder}
             />}
             {icon && type !== "textarea" && <div className="input-container">
                 <FontAwesomeIcon icon={icon} className="input-icon"/>
@@ -40,6 +42,7 @@ const InputText: React.FC<InputTextProps> = ({ type="text", label, value, icon, 
                     className="input"
                     value={value}
                     onChange={handleChange}
+                    placeholder={placeholder}
                 />
             </div>
 
@@ -47,6 +50,7 @@ const InputText: React.FC<InputTextProps> = ({ type="text", label, value, icon, 
             {type === 'textarea' && <textarea
                 value={value}
                 className="textarea"
+                placeholder={placeholder}
                 onChange={handleChangeTextArea}
                 style={{ height: height }}
 
